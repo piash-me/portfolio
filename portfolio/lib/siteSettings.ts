@@ -17,6 +17,19 @@ export type SocialLink = {
   label?: string;
 };
 
+export type ExperienceEntry = {
+  role: string;
+  org: string;
+  period: string;
+  points: string[];
+};
+
+export type EducationEntry = {
+  title: string;
+  org: string;
+  period: string;
+};
+
 export type SiteSettings = {
   name: string;
   currentTitle: string;
@@ -32,8 +45,11 @@ export type SiteSettings = {
   email: string;
   location: string;
   socialLinks: SocialLink[];
-  photoUrl?: string; // from Sanity Site Settings \u2014 falls back to /public/photo.jpg when not set
-  cvUrl?: string;    // from Sanity Site Settings \u2014 falls back to /public/cv.pdf when not set
+  photoUrl?: string; // from Sanity Site Settings — falls back to /public/photo.jpg when not set
+  cvUrl?: string;    // from Sanity Site Settings — falls back to /public/cv.pdf when not set
+  experience: ExperienceEntry[];
+  education: EducationEntry[];
+  certifications: string[];
 };
 
 // This is the actual current content of the site. Once real values are added in
@@ -58,7 +74,7 @@ export const fallbackSiteSettings: SiteSettings = {
     { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', description: 'Frontline last-mile delivery — the starting point for everything that followed.' },
     { year: '2022', title: 'Delivery Driver', company: 'Al-Dawaa Medical Services Co. — Jazan', description: 'Moved into e-commerce delivery operations.' },
     { year: '2022', title: 'Promoted to Regional E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — East Region', description: 'Took ownership of OTD, rider utilization, and team performance across the East Region.' },
-    { year: '2026', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', description: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
+    { year: '2026 – Present', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', description: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
   ],
   stats: [
     { label: 'Years in E-commerce Ops', value: 4, suffix: '+' },
@@ -71,6 +87,36 @@ export const fallbackSiteSettings: SiteSettings = {
   socialLinks: [
     { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/mohammadpiash' },
     { platform: 'WhatsApp', url: 'https://wa.me/966562677858' },
+  ],
+  experience: [
+    { role: 'E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — All Regions', period: '2026 – Present', points: [
+      'Promoted from Regional E-commerce Operations Team Leader (East Region) to oversee last-mile operations monitoring and performance across all regions nationwide.',
+      'Own On-Time Delivery (OTD), cost-per-delivery (CPD/CPO), and rider utilization across the last-mile fleet at national scale.',
+      'Manage delivery workflows through last-mile technology platforms and coordinate with support teams on issue resolution.',
+      'Use a data-driven approach — Excel, Power BI — to identify improvement opportunities and drive continuous improvement.',
+    ]},
+    { role: 'Regional E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — East Region', period: 'Sep 2022 – 2026', points: [
+      'Promoted from Delivery Driver to Regional E-commerce Operations Team Leader, taking ownership of OTD, rider utilization, and team performance across the East Region.',
+    ]},
+    { role: 'Delivery Driver', org: 'Al-Dawaa Medical Services Co. — Jazan Region', period: 'Mar 2022 – Sep 2022', points: [
+      'Frontline last-mile delivery execution ahead of promotion to Regional E-commerce Operations Team Leader.',
+    ]},
+    { role: 'Delivery Driver', org: 'HungerStation & Mrsool — Buraydah, Al Qasim', period: 'Jan 2019 – Feb 2022', points: [
+      'Three years of frontline last-mile delivery across two major Saudi delivery platforms.',
+    ]},
+    { role: 'WordPress Developer & Frontend Web Developer', org: 'Fiverr (Freelance) — Riyadh', period: 'Jan 2019 – Mar 2021', points: [
+      'Built and customized WordPress sites and frontend web projects for freelance clients.',
+    ]},
+  ],
+  education: [
+    { title: 'Higher Secondary Certificate, Entrepreneurship Development', org: 'Islamia Technical And Business Management College', period: 'Jan 2013 – Dec 2014' },
+  ],
+  certifications: [
+    'Microsoft Excel — Data Analysis with Excel Pivot Tables',
+    'Microsoft PowerPoint: School to Corporate — Basic to Advance',
+    'ChatGPT Artificial Intelligence',
+    'Google Bard',
+    'Cyber Security (Honors: Cyber Security Expert)',
   ],
 };
 

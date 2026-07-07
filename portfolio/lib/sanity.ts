@@ -19,7 +19,8 @@ export const POSTS_QUERY = `*[_type == "post" && status == "Published"] | order(
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   name, currentTitle, company, heroEyebrow, heroHeadline, heroSubtext, roleTags, badgeText,
   "photoUrl": photo.asset->url, "cvUrl": cvFile.asset->url, aboutHeadline, timeline, stats,
-  email, location, socialLinks, seoTitle, seoDescription, "ogImageUrl": ogImage.asset->url
+  email, location, socialLinks, experience, education, certifications,
+  seoTitle, seoDescription, "ogImageUrl": ogImage.asset->url
 }`;
 
 export const SKILLS_QUERY = `*[_type == "skillCategory"] | order(order asc){

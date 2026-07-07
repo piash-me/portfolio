@@ -4,36 +4,37 @@ import Navbar from '@/components/Navbar';
 import DataPulse from '@/components/DataPulse';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mohammadpiash.com'),
+  metadataBase: new URL('https://thepiash.com'),
   title: {
-    default: 'Mohammad Piash — Operations to Intelligence',
+    default: 'Mohammad Piash — Data Analyst in Operations',
     template: '%s · Mohammad Piash',
   },
   description:
-    'Operations Team Leader building toward Business Intelligence and Automation. Last-mile logistics, SLA management, Power BI, and automation projects.',
+    'Data Analyst working inside e-commerce operations. Last-mile logistics, SQL, Power BI, and process improvement at Al-Dawaa Medical Services Co.',
   keywords: [
-    'operations manager portfolio',
+    'data analyst portfolio',
+    'operations data analyst',
     'business intelligence',
     'last mile delivery operations',
     'power bi analyst',
     'logistics technology',
   ],
   openGraph: {
-    title: 'Mohammad Piash — Operations to Intelligence',
-    description: 'Operations leader building toward Business Intelligence and Automation.',
-    url: 'https://mohammadpiash.com',
+    title: 'Mohammad Piash — Data Analyst in Operations',
+    description: 'Data Analyst working inside e-commerce operations — SQL, Power BI, and process improvement.',
+    url: 'https://thepiash.com',
     siteName: 'Mohammad Piash',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mohammad Piash — Operations to Intelligence',
-    description: 'Operations leader building toward Business Intelligence and Automation.',
+    title: 'Mohammad Piash — Data Analyst in Operations',
+    description: 'Data Analyst working inside e-commerce operations — SQL, Power BI, and process improvement.',
     images: ['/og-image.png'],
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: 'https://mohammadpiash.com' },
+  alternates: { canonical: 'https://thepiash.com' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

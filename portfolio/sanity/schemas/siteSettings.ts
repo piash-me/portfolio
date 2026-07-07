@@ -66,6 +66,36 @@ export default {
       }],
     },
 
+    // Resume — Experience, Education, Certifications
+    {
+      name: 'experience',
+      title: 'Resume: Experience',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'role', title: 'Role', type: 'string' },
+          { name: 'org', title: 'Organization / Scope', type: 'string' },
+          { name: 'period', title: 'Period', type: 'string' },
+          { name: 'points', title: 'Bullet Points', type: 'array', of: [{ type: 'string' }] },
+        ],
+      }],
+    },
+    {
+      name: 'education',
+      title: 'Resume: Education',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'title', title: 'Title', type: 'string' },
+          { name: 'org', title: 'Organization', type: 'string' },
+          { name: 'period', title: 'Period', type: 'string' },
+        ],
+      }],
+    },
+    { name: 'certifications', title: 'Resume: Certifications', type: 'array', of: [{ type: 'string' }] },
+
     // SEO
     { name: 'seoTitle', title: 'Default SEO Title', type: 'string' },
     { name: 'seoDescription', title: 'Default SEO Description', type: 'text' },
