@@ -21,6 +21,7 @@ export type Project = {
   toolType?: 'Embedded App' | 'API-backed Tool' | 'External Link';
   embedUrl?: string;     // Power BI public embed URL, Streamlit app URL, etc. — renders in an iframe
   liveToolPath?: string; // internal path like /tools/sla-risk, for tools built directly into this site
+  featured?: boolean; // featured projects sort to the top of the grid
 };
 
 export const projects: Project[] = [

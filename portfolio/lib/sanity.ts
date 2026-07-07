@@ -8,7 +8,7 @@ export const sanityClient = createClient({
 });
 
 export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc){
-  title, "slug": slug.current, category, tags, status, summary, problem, solution, impact,
+  title, "slug": slug.current, category, tag, status, summary, problem, solution, impact,
   tools, coverImage, githubUrl, liveUrl, featured, date, toolType, embedUrl, liveToolPath
 }`;
 

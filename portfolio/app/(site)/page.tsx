@@ -219,7 +219,9 @@ export default function HomePage() {
 
   const typedRole = useTypingEffect(settings.roleTags);
   const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
-  const filteredProjects = activeCategory === 'All' ? projects : projects.filter((p) => p.category === activeCategory);
+  const filteredProjects = (activeCategory === 'All' ? projects : projects.filter((p) => p.category === activeCategory))
+    .slice()
+    .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
   const copyEmail = () => {
     navigator.clipboard?.writeText(settings.email);
@@ -370,7 +372,10 @@ export default function HomePage() {
           {filteredProjects.map((p) => (
             <Link key={p.slug} href={`/projects/${p.slug}`} className="rounded-2xl glass p-6 group block">
               <div className="flex items-center justify-between mb-3">
-                <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
+                <div className="flex items-center gap-2">
+                  <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
+                  {p.featured && <span className="text-[10px] mono-font text-bronze">★ Featured</span>}
+                </div>
                 <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
               </div>
               <h3 className="text-white font-medium text-lg mb-2 flex items-center gap-2">

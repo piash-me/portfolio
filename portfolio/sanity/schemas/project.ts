@@ -6,7 +6,7 @@ export default {
     { name: 'title', type: 'string', title: 'Title' },
     { name: 'slug', type: 'slug', options: { source: 'title' } },
     { name: 'category', title: 'Category', type: 'string', description: 'Type any category — e.g. BI, Automation, Operations, or a brand new one. No fixed list, so new categories just work.' },
-    { name: 'tags', type: 'array', of: [{ type: 'string' }] },
+    { name: 'tag', title: 'Tag', type: 'string', description: 'One short label shown as a badge on the project card, e.g. "Power BI + Excel" or "SQL".' },
     { name: 'status', type: 'string', options: { list: ['Live', 'In Progress', 'Archived'] } },
     { name: 'summary', type: 'text' },
     { name: 'problem', type: 'text' },
