@@ -15,7 +15,9 @@
     "framer-motion": "^11.2.0",
     "lucide-react": "^0.383.0",
     "next-sanity": "^9.0.0",
+    "sanity": "^3.55.0",
     "@sanity/image-url": "^1.0.2",
+    "@sanity/vision": "^3.55.0",
     "@portabletext/react": "^3.0.0"
   },
   "devDependencies": {

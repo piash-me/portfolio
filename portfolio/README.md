@@ -1,4 +1,4 @@
-# Your Name — Portfolio 
+# Your Name — Portfolio
 
 Premium, dynamic portfolio built with Next.js 14 (App Router), TypeScript, Tailwind CSS, and Sanity CMS.
 
@@ -40,15 +40,11 @@ Visit `http://localhost:3000`.
 - Real project/blog data — once Sanity is connected, replace the hardcoded arrays in
   `app/page.tsx` and `app/blog/page.tsx` with `sanityClient.fetch(PROJECTS_QUERY)` calls (see `lib/sanity.ts`)
 
-## 5. Deploy the Sanity Studio (your admin panel)
+## 5. Access your admin panel
 
-```bash
-cd sanity
-npx sanity deploy
-```
+Your admin panel is embedded directly in the site — visit `yourdomain.com/studio` (or `your-vercel-url.vercel.app/studio`) and log in with your Sanity account. No CLI command needed; it deploys automatically as part of your normal Vercel build.
 
-This gives you a free hosted admin panel at `yourname.sanity.studio` — no server to maintain.
-Use it to add/edit projects, publish blog posts, update your CV, and manage site settings without touching code.
+(Alternative, if you have local CLI access: `cd sanity && npx sanity deploy` gives you a separate hosted panel at `yourname.sanity.studio` instead — either works, the embedded one requires nothing extra.)
 
 ## 6. Deploy the website
 

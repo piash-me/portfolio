@@ -4,18 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProjects, projects as fallbackProjects, type Project } from '@/lib/projects';
+import { getSiteSettings, fallbackSiteSettings, type SiteSettings } from '@/lib/siteSettings';
+import { getSkills, fallbackSkills, type SkillCategory } from '@/lib/skills';
 import {
-  ArrowRight, Download, Mail, Truck, BarChart3, Bot, Users, Database,
+  ArrowRight, Download, Mail, Truck, BarChart3, Bot, Users, Database, Sparkles,
   Github, Linkedin, ExternalLink, Copy, Check, MapPin, Facebook, Instagram,
-  Twitter, MessageCircle, Send, Loader2,
+  Twitter, MessageCircle, Youtube, Music2, Link2,
 } from 'lucide-react';
-
-const ROLES = [
-  'Operations Data Analyst',
-  'Process Improvement through Data',
-  'SLA & Fleet Performance Analytics',
-  'Data-Driven Operations Leader',
-];
 
 function useTypingEffect(words: string[], typingSpeed = 55, pauseTime = 1400) {
   const [text, setText] = useState('');
@@ -23,6 +18,7 @@ function useTypingEffect(words: string[], typingSpeed = 55, pauseTime = 1400) {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (words.length === 0) return;
     const current = words[wordIndex % words.length];
     let timeout: ReturnType<typeof setTimeout>;
     if (!deleting && text.length < current.length) {
@@ -182,56 +178,60 @@ function ProfessionFlip() {
   );
 }
 
-const skillGroups = [
-  { label: 'Operations', icon: Truck, color: '#C77D3D', skills: [
-    { name: 'Last-Mile Delivery Ops', level: 95 }, { name: 'OTD & SLA Management', level: 92 },
-    { name: 'Rider/3PL Coordination', level: 90 }, { name: 'Root Cause Analysis', level: 85 } ] },
-  { label: 'Data Analysis Applied to Ops', icon: BarChart3, color: '#8B7CF6', skills: [
-    { name: 'Data Visualization & Dashboarding', level: 85 }, { name: 'Excel (Pivot Tables)', level: 92 },
-    { name: 'Power BI', level: 70 }, { name: 'SQL', level: 45 } ] },
-  { label: 'Automation & AI', icon: Bot, color: '#5EC8D8', skills: [
-    { name: 'ChatGPT / AI Tools', level: 80 }, { name: 'Google Bard', level: 70 },
-    { name: 'Cyber Security Awareness', level: 75 }, { name: 'Python', level: 35 } ] },
-  { label: 'Leadership', icon: Users, color: '#D89EC7', skills: [
-    { name: 'Team Leadership', level: 92 }, { name: 'Driver Performance Coaching', level: 88 },
-    { name: 'Cross-Functional Coordination', level: 85 } ] },
-];
+// Skills come from Sanity without an icon field (component references can't be
+// stored in a CMS), so a category's display icon is inferred from its label.
+function iconForSkillLabel(label: string) {
+  const l = label.toLowerCase();
+  if (l.includes('data') || l.includes('bi') || l.includes('analy')) return BarChart3;
+  if (l.includes('automat') || l.includes('ai')) return Bot;
+  if (l.includes('lead') || l.includes('team')) return Users;
+  if (l.includes('operat') || l.includes('delivery') || l.includes('fleet')) return Truck;
+  return Sparkles;
+}
 
-const timeline = [
-  { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', desc: 'Frontline last-mile delivery — where the operational instincts started.' },
-  { year: '2022', title: 'Delivery Driver', company: 'Al-Dawaa Medical Services Co. — Jazan', desc: 'Moved into e-commerce delivery operations.' },
-  { year: '2022', title: 'Promoted to Regional E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — East Region', desc: 'Took ownership of OTD, cost-per-delivery, rider utilization, and team performance across the East Region.' },
-  { year: 'Now', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', desc: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
-];
-
-const stats = [
-  { label: 'Years in E-commerce Ops', value: 4, suffix: '+' },
-  { label: 'Years in Last-Mile Delivery', value: 7, suffix: '+' },
-  { label: 'Core KPIs Owned', value: 5, suffix: '' },
-  { label: 'Certifications', value: 5, suffix: '' },
-];
-
-// Categories are derived from whatever projects actually exist — add a project
-// with a brand new category and it appears here automatically, no code change needed.
+// Same idea for social links — the platform name picked in the admin panel maps to an icon.
+function iconForPlatform(platform: string) {
+  switch (platform) {
+    case 'LinkedIn': return Linkedin;
+    case 'GitHub': return Github;
+    case 'Facebook': return Facebook;
+    case 'Instagram': return Instagram;
+    case 'X (Twitter)': return Twitter;
+    case 'WhatsApp': return MessageCircle;
+    case 'YouTube': return Youtube;
+    case 'TikTok': return Music2;
+    default: return Link2;
+  }
+}
 
 export default function HomePage() {
-  const typedRole = useTypingEffect(ROLES);
+  const [settings, setSettings] = useState<SiteSettings>(fallbackSiteSettings);
+  const [skills, setSkills] = useState<SkillCategory[]>(fallbackSkills);
+  const [projects, setProjects] = useState<Project[]>(fallbackProjects);
   const [activeCategory, setActiveCategory] = useState('All');
   const [copied, setCopied] = useState(false);
-  const [projects, setProjects] = useState<Project[]>(fallbackProjects);
 
   useEffect(() => {
+    getSiteSettings().then(setSettings);
+    getSkills().then(setSkills);
     getProjects().then(setProjects);
   }, []);
 
+  const typedRole = useTypingEffect(settings.roleTags);
   const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
   const filteredProjects = activeCategory === 'All' ? projects : projects.filter((p) => p.category === activeCategory);
 
   const copyEmail = () => {
-    navigator.clipboard?.writeText('piashm03@gmail.com');
+    navigator.clipboard?.writeText(settings.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   };
+
+  // Headline supports an optional "|" to mark where the gradient-colored part begins,
+  // e.g. "I improve operations by|analyzing the data." — set in Site Settings.
+  const [headlinePlain, headlineGrad] = settings.heroHeadline.includes('|')
+    ? settings.heroHeadline.split('|')
+    : [settings.heroHeadline, ''];
 
   return (
     <main>
@@ -244,18 +244,15 @@ export default function HomePage() {
 
         <div className="relative z-10 grid md:grid-cols-[1.3fr_0.7fr] items-center gap-10 max-w-5xl fade-up text-center md:text-left">
           <div>
-            <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-4 select-none">OPERATIONS, IMPROVED THROUGH DATA</p>
+            <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-4 select-none">{settings.heroEyebrow}</p>
             <h1 className="display-font text-4xl sm:text-6xl font-semibold leading-tight text-white">
-              I improve operations<br />by <span className="grad-text">analyzing the data.</span>
+              {headlinePlain}{headlineGrad && <span className="grad-text">{headlineGrad}</span>}
             </h1>
             <p className="mt-5 text-lg text-neutral-300 h-7">
               {typedRole}<span className="inline-block w-[2px] h-5 bg-violet-300 ml-1 align-middle animate-pulse" />
             </p>
             <p className="mt-4 text-neutral-300 max-w-xl leading-relaxed mx-auto md:mx-0">
-              I lead last-mile delivery operations at <span className="text-white font-medium">Al-Dawaa Medical Services Co.</span> across
-              all regions of Saudi Arabia — accountable for fleet performance, SLA compliance, and driver
-              output. I use SQL, Power BI, and Python to turn On-Time Delivery, cost-per-delivery, and rider
-              utilization data into decisions that measurably improve performance.
+              {settings.heroSubtext}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
               <a href="/cv.pdf" download className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
@@ -274,10 +271,10 @@ export default function HomePage() {
             <div className="relative w-56 h-56 sm:w-64 sm:h-64">
               <div className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl" style={{ background: 'linear-gradient(135deg, #C77D3D, #8B7CF6)' }} />
               <div className="relative w-full h-full rounded-[2rem] glass overflow-hidden flex items-center justify-center">
-                <Image src="/photo.jpg" alt="Mohammad Piash" fill className="object-cover" priority />
+                <Image src="/photo.jpg" alt={settings.name} fill className="object-cover" priority />
               </div>
               <div className="absolute -bottom-3 -right-3 px-3.5 py-1.5 rounded-full bg-white text-black mono-font text-[10px] font-semibold shadow-lg">
-                OPEN TO DATA ANALYST ROLES
+                {settings.badgeText}
               </div>
             </div>
           </div>
@@ -294,7 +291,7 @@ export default function HomePage() {
 
       {/* STATS */}
       <section className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {stats.map((s) => {
+        {settings.stats.map((s) => {
           const [ref, value] = useCountUp(s.value);
           return (
             <div key={s.label} ref={ref} className="text-center glass rounded-2xl py-8">
@@ -308,15 +305,15 @@ export default function HomePage() {
       {/* ABOUT */}
       <section id="about" className="max-w-4xl mx-auto px-6 py-24">
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">ABOUT</p>
-        <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">Same job, sharper method: operations run on data now.</h2>
+        <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">{settings.aboutHeadline}</h2>
         <div className="relative pl-8 border-l border-white/10 space-y-10">
-          {timeline.map((t, i) => (
+          {settings.timeline.map((t, i) => (
             <div key={i} className="relative">
               <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet-300" />
               <p className="mono-font text-xs text-violet-300 mb-1">{t.year}</p>
               <h3 className="text-white font-medium text-lg">{t.title}</h3>
               <p className="text-bronze text-xs font-medium mt-0.5">{t.company}</p>
-              <p className="text-neutral-300 text-sm mt-1.5 max-w-lg">{t.desc}</p>
+              <p className="text-neutral-300 text-sm mt-1.5 max-w-lg">{t.description}</p>
             </div>
           ))}
         </div>
@@ -327,13 +324,13 @@ export default function HomePage() {
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">CAPABILITIES</p>
         <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">Operational depth, analytical range.</h2>
         <div className="grid sm:grid-cols-2 gap-6">
-          {skillGroups.map((group) => {
-            const Icon = group.icon;
+          {skills.map((group) => {
+            const Icon = iconForSkillLabel(group.label);
             return (
               <div key={group.label} className="rounded-2xl glass p-6">
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${group.color}22` }}>
-                    <Icon size={18} color={group.color} />
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${group.colorHex}22` }}>
+                    <Icon size={18} color={group.colorHex} />
                   </div>
                   <h3 className="text-white font-medium">{group.label}</h3>
                 </div>
@@ -344,7 +341,7 @@ export default function HomePage() {
                         <span>{s.name}</span><span className="mono-font">{s.level}%</span>
                       </div>
                       <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                        <div className="h-full rounded-full skill-bar-fill" style={{ width: `${s.level}%`, backgroundColor: group.color }} />
+                        <div className="h-full rounded-full skill-bar-fill" style={{ width: `${s.level}%`, backgroundColor: group.colorHex }} />
                       </div>
                     </div>
                   ))}
@@ -392,23 +389,25 @@ export default function HomePage() {
         <h2 className="display-font text-2xl sm:text-3xl text-white mb-3">Let&apos;s talk about improving operations with data.</h2>
         <p className="text-neutral-400 text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
 
-        <a href="mailto:piashm03@gmail.com" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors mb-6">
+        <a href={`mailto:${settings.email}`} className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors mb-6">
           <Mail size={16} /> Email Me Directly
         </a>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8">
           <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300 hover:text-white transition-colors">
-            {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />} {copied ? 'Copied' : 'piashm03@gmail.com'}
+            {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />} {copied ? 'Copied' : settings.email}
           </button>
-          <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300"><MapPin size={15} /> Al Khobar, Eastern, Saudi Arabia</span>
+          <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300"><MapPin size={15} /> {settings.location}</span>
         </div>
         <div className="flex flex-wrap justify-center gap-5 text-neutral-400">
-          <a href="https://www.linkedin.com/in/mohammadpiash" target="_blank" rel="noopener noreferrer" title="LinkedIn"><Linkedin size={18} className="hover:text-white transition-colors" /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer" title="GitHub"><Github size={18} className="hover:text-white transition-colors" /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer" title="Facebook"><Facebook size={18} className="hover:text-white transition-colors" /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><Instagram size={18} className="hover:text-white transition-colors" /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer" title="X (Twitter)"><Twitter size={18} className="hover:text-white transition-colors" /></a>
-          <a href="https://wa.me/966562677858" target="_blank" rel="noopener noreferrer" title="WhatsApp"><MessageCircle size={18} className="hover:text-white transition-colors" /></a>
+          {settings.socialLinks.map((link) => {
+            const Icon = iconForPlatform(link.platform);
+            return (
+              <a key={link.platform + link.url} href={link.url} target="_blank" rel="noopener noreferrer" title={link.label || link.platform}>
+                <Icon size={18} className="hover:text-white transition-colors" />
+              </a>
+            );
+          })}
         </div>
       </footer>
     </main>

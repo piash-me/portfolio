@@ -10,20 +10,16 @@ This is the plain-language version of the README: what to do, in order, with no 
 You need [Node.js](https://nodejs.org) (LTS version) installed once. Then:
 
 ```bash
-unzip portfolio-nextjs-project.zip
-cd portfolio
 npm install
 ```
 
-### Step 2: Create your free Sanity account (this becomes your admin panel)
-```bash
-cd sanity
-npx sanity init
-```
-This opens a browser login, asks you to name your project, and gives you a **Project ID**. Copy it.
+### Step 2: Create your free Sanity project (this becomes your admin panel) — no CLI needed
+Go to [sanity.io/manage](https://www.sanity.io/manage) in your browser → sign up (free) → **"Create new project"** → give it a name → choose the free "Default" dataset. Copy the **Project ID** it shows you.
+
+This is fully browser-based — you don't need to run any command to do this step.
 
 ### Step 3: Connect the website to your admin panel
-In the main `portfolio` folder, copy `.env.example` to `.env.local` and paste your Project ID in:
+Copy `.env.example` to `.env.local` and paste your Project ID in:
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
@@ -38,35 +34,28 @@ Open `http://localhost:3000` — this is your site, running on your computer.
 ### Step 5: Put your content in
 - Replace `public/photo.jpg` with your photo (already done — your real photo is in there)
 - Replace `public/cv.pdf` with your latest CV (already done — your uploaded resume is in there)
-- Update the email/LinkedIn/location text if anything changes later — see Part 3
 
 ### Step 6: Publish the code to GitHub
-If you don't have GitHub yet, create a free account at github.com, then:
-```bash
-git init
-git add .
-git commit -m "Initial portfolio"
-```
-Create a new repository on GitHub's website, then follow the two commands it shows you to push your code there.
+Push this project to a GitHub repo (see the "Filling the Repository" guidance from earlier in our conversation if you're doing this without a local terminal).
 
 ### Step 7: Go live on Vercel (free hosting)
 1. Go to [vercel.com](https://vercel.com), sign up with your GitHub account
 2. Click "New Project," select your portfolio repository
-3. Before clicking Deploy, add your environment variables (the same ones from `.env.local`) in the Vercel settings screen
-4. Click Deploy — in about a minute, your site is live at a free `yourproject.vercel.app` address
+3. **Important**: set **Root Directory** to `portfolio` if your repo has that folder structure, and set **Framework Preset** to **Next.js** explicitly if it isn't auto-detected
+4. Add your environment variables (the same ones from `.env.local`) in the Vercel settings screen
+5. Click Deploy
 
-### Step 8: Connect your own domain (optional but recommended)
-1. Buy a domain (e.g. `mohammadpiash.com`) from Namecheap or Cloudflare — usually $10–15/year
-2. In Vercel, go to your project → Settings → Domains → add your domain
-3. Vercel shows you 1–2 DNS records to add at your domain registrar — follow their instructions exactly
-4. Within a few hours, your custom domain points to your live site
+### Step 8: Connect your own domain (optional)
+Buy a domain, add it in Vercel → Settings → Domains, then either add the DNS records Vercel shows you, or point your domain's nameservers to Vercel's (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`) — nameservers can take up to 48 hours to propagate.
 
-### Step 9: Deploy your admin panel
-```bash
-cd sanity
-npx sanity deploy
+### Step 9: Access your admin panel — no CLI needed at all
+Your admin panel is **built directly into your website** at:
 ```
-This gives you a free admin panel at `yourproject.sanity.studio` — bookmark this. This is where you'll manage everything from now on, with no code.
+https://yourdomain.com/studio
+```
+(or `https://your-project.vercel.app/studio` if you haven't connected a custom domain yet)
+
+Just visit that URL in any browser and log in with the same account you used at sanity.io/manage. No terminal, no `npx sanity deploy`, nothing to install beyond what Vercel already builds automatically. This was specifically built this way because local CLI access isn't always available (e.g., restricted office networks) — the entire admin panel now travels with your site's normal deployment.
 
 **You're live. Everything from here is Part 2 and 3 — no developer needed.**
 
@@ -74,7 +63,7 @@ This gives you a free admin panel at `yourproject.sanity.studio` — bookmark th
 
 ## Part 2 — Updating Content (using the admin panel)
 
-Go to your `yourproject.sanity.studio` link and log in.
+Go to `yourdomain.com/studio` (or `your-project.vercel.app/studio`) and log in.
 
 ### Adding a new project
 1. Click "Project" in the left sidebar → "Create new"

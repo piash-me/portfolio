@@ -1,7 +1,6 @@
-// Shared project data — used by both the homepage grid and the project detail pages.
-// Once Sanity is connected, replace this array with:
-//   const projects = await sanityClient.fetch(PROJECTS_QUERY)
-// The shape below matches the Sanity `project` schema exactly, so the swap is drop-in.
+// Shared project data — the `projects` array below is the fallback/example content.
+// getProjects() actually fetches live data from Sanity when NEXT_PUBLIC_SANITY_PROJECT_ID
+// is set, and falls back to this array otherwise (before setup, or if Sanity is unreachable).
 
 export type Project = {
   slug: string;
