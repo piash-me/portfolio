@@ -86,6 +86,25 @@ export const posts: Post[] = [
       { type: 'paragraph', text: 'The Excel version was only switched off once three consecutive weeks of both versions matched exactly. That trust-building step is easy to skip and expensive to skip.' },
     ],
   },
+  // --- DEMO CONTENT: for testing at scale on the live site. Delete this whole block when done. ---
+  { slug: 'demo-five-excel-shortcuts', title: '[DEMO] Five Excel Shortcuts I Use Every Single Day', category: 'BI', readTime: '4 min', date: 'Feb 2026',
+    excerpt: 'The handful of shortcuts that actually save meaningful time in daily reporting.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
+  { slug: 'demo-what-i-wish-i-knew-sql', title: '[DEMO] What I Wish I Knew Before Learning SQL', category: 'Automation', readTime: '5 min', date: 'Jan 2026',
+    excerpt: 'A few things that would have made the first month of learning SQL less confusing.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
+  { slug: 'demo-bad-delivery-day', title: '[DEMO] How We Handle a Bad Delivery Day', category: 'Operations', readTime: '6 min', date: 'Dec 2025',
+    excerpt: 'The actual step-by-step process when things go wrong at scale.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
+  { slug: 'demo-reading-power-bi-like-analyst', title: '[DEMO] Reading a Power BI Dashboard Like an Analyst', category: 'BI', readTime: '5 min', date: 'Nov 2025',
+    excerpt: 'A few habits that changed how I read dashboards, not just build them.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
+  { slug: 'demo-idle-time-not-just-delivery-time', title: '[DEMO] Why I Track Idle Time, Not Just Delivery Time', category: 'Operations', readTime: '4 min', date: 'Oct 2025',
+    excerpt: 'The metric that is easy to ignore but often explains the most.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
+  { slug: 'demo-chatgpt-at-work', title: '[DEMO] My Honest Take on Using ChatGPT at Work', category: 'Automation', readTime: '6 min', date: 'Sep 2025',
+    excerpt: 'Where it genuinely helps in daily operations work, and where it does not.',
+    body: [{ type: 'paragraph', text: 'Placeholder demo content for testing the blog at scale — replace or delete when done testing.' }] },
 ];
 
 // Fetches live posts from Sanity if configured and has content; otherwise falls

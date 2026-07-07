@@ -81,6 +81,55 @@ export const projects: Project[] = [
     toolType: 'External Link',
     liveUrl: '', // paste your Google Colab share link here — shown as a "Run it yourself" button
   },
+  // --- DEMO CONTENT: for testing at scale on the live site. Delete this whole block when done. ---
+  {
+    slug: 'demo-fleet-idle-time-tracker', title: '[DEMO] Fleet Idle-Time Tracker', category: 'Operations', tag: 'Excel', status: 'Live',
+    summary: 'Flags riders with unusually long idle windows between deliveries.',
+    problem: 'Idle time between drops was invisible until someone manually reviewed timestamps.',
+    solution: 'A daily Excel macro flags any rider with over 20 minutes idle between two consecutive deliveries.',
+    impact: 'Surfaced three recurring bottleneck zones within the first two weeks.',
+    tools: ['Excel'], date: '2025-08-01',
+  },
+  {
+    slug: 'demo-customer-complaint-categorizer', title: '[DEMO] Customer Complaint Categorizer', category: 'BI', tag: 'Power BI', status: 'Live',
+    summary: 'Groups incoming complaints into root-cause buckets automatically.',
+    problem: 'Complaints were logged as free text with no structure, making patterns hard to see.',
+    solution: 'A Power BI model tags complaints by keyword into categories (late delivery, damaged item, wrong address, other).',
+    impact: 'Cut manual complaint triage time by roughly half.',
+    tools: ['Power BI'], date: '2025-07-01',
+  },
+  {
+    slug: 'demo-shift-handover-dashboard', title: '[DEMO] Shift Handover Dashboard', category: 'Operations', tag: 'Power BI', status: 'Live',
+    summary: 'One-screen summary for shift leads handing over to the next shift.',
+    problem: 'Handovers relied on verbal summaries, and details were regularly lost.',
+    solution: 'A live dashboard showing open exceptions, pending deliveries, and flagged riders at shift-change time.',
+    impact: 'Reduced repeated/duplicate follow-ups on already-resolved issues.',
+    tools: ['Power BI'], date: '2025-06-01',
+  },
+  {
+    slug: 'demo-weekend-demand-forecast', title: '[DEMO] Weekend Demand Forecast', category: 'Automation', tag: 'Python', status: 'In Progress',
+    summary: 'A simple model predicting weekend order volume from historical data.',
+    problem: 'Weekend staffing was based on gut feel, leading to under- or overstaffing.',
+    solution: 'A basic regression model using the last 12 weeks of order data to project the coming weekend\u2019s volume.',
+    impact: 'Still validating accuracy before rolling into actual staffing decisions.',
+    tools: ['Python'], date: '2025-05-01',
+  },
+  {
+    slug: 'demo-rider-onboarding-checklist', title: '[DEMO] Rider Onboarding Checklist Tool', category: 'Operations', tag: 'Google Sheets', status: 'Live',
+    summary: 'Digitized the paper onboarding checklist for new riders.',
+    problem: 'Paper checklists went missing, and onboarding steps were regularly skipped.',
+    solution: 'A Google Form feeding a tracked Sheet, with automatic reminders for incomplete steps.',
+    impact: 'Onboarding completion visibility went from "unknown" to fully tracked.',
+    tools: ['Google Forms', 'Google Sheets'], date: '2025-04-01',
+  },
+  {
+    slug: 'demo-cost-per-zone-breakdown', title: '[DEMO] Cost-per-Zone Breakdown', category: 'BI', tag: 'Excel Pivot Tables', status: 'Live',
+    summary: 'Compares delivery cost efficiency across operating zones.',
+    problem: 'Zone-level cost differences were assumed, never actually measured.',
+    solution: 'A pivot-table model breaking down cost per delivery by zone and vehicle type.',
+    impact: 'Identified one zone running notably less efficiently, prompting a route review.',
+    tools: ['Excel Pivot Tables'], date: '2025-03-01',
+  },
 ];
 
 // Fetches live projects from Sanity if it's configured and has content; otherwise
