@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import ContactForm from '@/components/ContactForm';
+import Link from 'next/link';
+import { getProjects, projects as fallbackProjects, type Project } from '@/lib/projects';
 import {
   ArrowRight, Download, Mail, Truck, BarChart3, Bot, Users, Database,
   Github, Linkedin, ExternalLink, Copy, Check, MapPin, Facebook, Instagram,
@@ -109,8 +110,8 @@ function SignalPath() {
 }
 
 const professions = [
-  { title: 'Operations Leader', icon: Truck, color: '#C77D3D', desc: 'Runs last-mile delivery operations end to end — fleets, SLAs, rider performance, and daily execution.' },
-  { title: 'Data Analyst', icon: BarChart3, color: '#8B7CF6', desc: 'Turns operational numbers — OTD, CPD/CPO, rider utilization — into dashboards and decisions.' },
+  { title: 'Data Analyst', icon: BarChart3, color: '#8B7CF6', desc: 'Turns operational numbers — OTD, CPD/CPO, rider utilization — into dashboards and decisions. My core skill.' },
+  { title: 'Operations Leader', icon: Truck, color: '#C77D3D', desc: 'Applies that skill inside real last-mile operations — fleets, SLAs, rider performance, nationwide.' },
   { title: 'Process Improver', icon: Bot, color: '#5EC8D8', desc: 'Finds root causes and builds repeatable fixes, automating what used to be manual reporting.' },
 ];
 
@@ -197,10 +198,10 @@ const skillGroups = [
 ];
 
 const timeline = [
-  { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', desc: 'Frontline last-mile delivery in Buraydah, Al Qasim — where the operational instincts started.' },
-  { year: '2022', title: 'Delivery Driver, Al-Dawaa (Jazan)', desc: 'Moved into e-commerce delivery operations at Al-Dawaa Medical Services.' },
-  { year: '2022', title: 'Promoted to Operations Team Leader', desc: 'Took ownership of OTD, cost-per-delivery, rider utilization, and team performance in Al Khobar.' },
-  { year: 'Now', title: 'Data-Driven Operations Leader', desc: 'Using Excel, Power BI, and growing SQL/Python skills to analyze delivery performance and drive continuous improvement.' },
+  { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', desc: 'Frontline last-mile delivery — where the operational instincts started.' },
+  { year: '2022', title: 'Delivery Driver', company: 'Al-Dawaa Medical Services Co. — Jazan', desc: 'Moved into e-commerce delivery operations.' },
+  { year: '2022', title: 'Promoted to Regional E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — East Region', desc: 'Took ownership of OTD, cost-per-delivery, rider utilization, and team performance across the East Region.' },
+  { year: 'Now', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', desc: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
 ];
 
 const stats = [
@@ -210,19 +211,20 @@ const stats = [
   { label: 'Certifications', value: 5, suffix: '' },
 ];
 
-const projects = [
-  { title: 'OTD Performance Dashboard', category: 'BI', tag: 'Power BI + Excel', status: 'Live', desc: 'Tracks On-Time Delivery, delivery success rate, and cost-per-delivery (CPD/CPO) across the fleet in real time.' },
-  { title: 'Rider Utilization Analysis', category: 'BI', tag: 'Excel Pivot Tables', status: 'Live', desc: 'Breaks down rider utilization by zone and shift to guide fleet allocation decisions.' },
-  { title: 'Root Cause Tracker', category: 'Operations', tag: 'Process Improvement', status: 'Live', desc: 'A structured framework for logging and resolving recurring delivery exceptions with delivery partners.' },
-  { title: 'SQL Learning Log', category: 'Automation', tag: 'SQL', status: 'In Progress', desc: 'Documenting the transition from Excel-based reporting to SQL queries for operational data.' },
-];
-const categories = ['All', 'BI', 'Automation', 'Operations'];
+// Categories are derived from whatever projects actually exist — add a project
+// with a brand new category and it appears here automatically, no code change needed.
 
 export default function HomePage() {
   const typedRole = useTypingEffect(ROLES);
   const [activeCategory, setActiveCategory] = useState('All');
   const [copied, setCopied] = useState(false);
+  const [projects, setProjects] = useState<Project[]>(fallbackProjects);
 
+  useEffect(() => {
+    getProjects().then(setProjects);
+  }, []);
+
+  const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
   const filteredProjects = activeCategory === 'All' ? projects : projects.filter((p) => p.category === activeCategory);
 
   const copyEmail = () => {
@@ -250,10 +252,10 @@ export default function HomePage() {
               {typedRole}<span className="inline-block w-[2px] h-5 bg-violet-300 ml-1 align-middle animate-pulse" />
             </p>
             <p className="mt-4 text-neutral-300 max-w-xl leading-relaxed mx-auto md:mx-0">
-              I lead last-mile delivery operations at Al-Dawaa Medical Services — fleets, SLAs, driver
-              performance — and I use data analysis as the tool to find what&apos;s broken and fix it. I track
-              On-Time Delivery, cost per delivery, and rider utilization, and use SQL, Power BI, and Python
-              to turn those numbers into decisions that actually move the metrics.
+              I lead last-mile delivery operations at <span className="text-white font-medium">Al-Dawaa Medical Services Co.</span> across
+              all regions of Saudi Arabia — accountable for fleet performance, SLA compliance, and driver
+              output. I use SQL, Power BI, and Python to turn On-Time Delivery, cost-per-delivery, and rider
+              utilization data into decisions that measurably improve performance.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
               <a href="/cv.pdf" download className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
@@ -275,7 +277,7 @@ export default function HomePage() {
                 <Image src="/photo.jpg" alt="Mohammad Piash" fill className="object-cover" priority />
               </div>
               <div className="absolute -bottom-3 -right-3 px-3.5 py-1.5 rounded-full bg-white text-black mono-font text-[10px] font-semibold shadow-lg">
-                OPEN TO DATA-DRIVEN OPS ROLES
+                OPEN TO DATA ANALYST ROLES
               </div>
             </div>
           </div>
@@ -313,7 +315,8 @@ export default function HomePage() {
               <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet-300" />
               <p className="mono-font text-xs text-violet-300 mb-1">{t.year}</p>
               <h3 className="text-white font-medium text-lg">{t.title}</h3>
-              <p className="text-neutral-300 text-sm mt-1 max-w-lg">{t.desc}</p>
+              <p className="text-bronze text-xs font-medium mt-0.5">{t.company}</p>
+              <p className="text-neutral-300 text-sm mt-1.5 max-w-lg">{t.desc}</p>
             </div>
           ))}
         </div>
@@ -368,7 +371,7 @@ export default function HomePage() {
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
           {filteredProjects.map((p) => (
-            <div key={p.title} className="rounded-2xl glass p-6 group">
+            <Link key={p.slug} href={`/projects/${p.slug}`} className="rounded-2xl glass p-6 group block">
               <div className="flex items-center justify-between mb-3">
                 <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
                 <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
@@ -377,8 +380,8 @@ export default function HomePage() {
                 {p.title}
                 <ExternalLink size={14} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               </h3>
-              <p className="text-neutral-300 text-sm leading-relaxed">{p.desc}</p>
-            </div>
+              <p className="text-neutral-300 text-sm leading-relaxed">{p.summary}</p>
+            </Link>
           ))}
         </div>
       </section>
@@ -387,9 +390,11 @@ export default function HomePage() {
       <footer id="contact" className="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <Database className="mx-auto mb-4 text-violet-300" size={28} />
         <h2 className="display-font text-2xl sm:text-3xl text-white mb-3">Let&apos;s talk about improving operations with data.</h2>
-        <p className="text-neutral-400 text-sm max-w-md mx-auto mb-8">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
+        <p className="text-neutral-400 text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
 
-        <ContactForm />
+        <a href="mailto:piashm03@gmail.com" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors mb-6">
+          <Mail size={16} /> Email Me Directly
+        </a>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8">
           <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300 hover:text-white transition-colors">

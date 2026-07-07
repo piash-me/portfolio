@@ -5,7 +5,7 @@ export default {
   fields: [
     { name: 'title', type: 'string', title: 'Title' },
     { name: 'slug', type: 'slug', options: { source: 'title' } },
-    { name: 'category', type: 'string', options: { list: ['Operations', 'BI', 'Automation'] } },
+    { name: 'category', title: 'Category', type: 'string', description: 'Type any category — e.g. BI, Automation, Operations, or a brand new one. No fixed list, so new categories just work.' },
     { name: 'tags', type: 'array', of: [{ type: 'string' }] },
     { name: 'status', type: 'string', options: { list: ['Live', 'In Progress', 'Archived'] } },
     { name: 'summary', type: 'text' },
@@ -20,8 +20,9 @@ export default {
     { name: 'featured', type: 'boolean' },
     // Interactive tool support (for automation/data-analyst apps you build later)
     { name: 'toolType', title: 'Interactive Tool Type', type: 'string',
-      options: { list: ['None', 'Embedded App', 'API-backed Tool'] }, initialValue: 'None' },
-    { name: 'embedUrl', title: 'Embed URL (Streamlit / Power BI / Hugging Face Space)', type: 'url' },
+      options: { list: ['None', 'Embedded App', 'API-backed Tool', 'External Link'] }, initialValue: 'None',
+      description: '"Embedded App" shows it live inside the page (Power BI "Publish to web", Streamlit, Hugging Face Spaces — anything that allows iframe embedding). "External Link" shows a button that opens it elsewhere (use this for Google Colab notebooks — Colab blocks embedding, so a direct link is the only reliable option). "API-backed Tool" is for small tools built directly into this site.' },
+    { name: 'embedUrl', title: 'Embed URL (Power BI / Streamlit / Hugging Face) OR External Link URL (Colab, etc.)', type: 'url' },
     { name: 'liveToolPath', title: 'Native Tool Path (e.g. /tools/sla-predictor)', type: 'string' },
   ],
 };

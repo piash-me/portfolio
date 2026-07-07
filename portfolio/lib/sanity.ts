@@ -8,14 +8,20 @@ export const sanityClient = createClient({
 });
 
 export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc){
-  title, slug, category, tags, status, summary, coverImage, githubUrl, liveUrl, featured,
-  toolType, embedUrl, liveToolPath
+  title, "slug": slug.current, category, tags, status, summary, problem, solution, impact,
+  tools, coverImage, githubUrl, liveUrl, featured, date, toolType, embedUrl, liveToolPath
 }`;
 
 export const POSTS_QUERY = `*[_type == "post" && status == "Published"] | order(publishedAt desc){
-  title, slug, category, excerpt, featuredImage, publishedAt
+  title, "slug": slug.current, category, excerpt, featuredImage, publishedAt
 }`;
 
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
-  heroHeadline, heroSubtext, cvFile, photo, email, location, linkedin, github
+  name, currentTitle, company, heroEyebrow, heroHeadline, heroSubtext, roleTags, badgeText,
+  photo, cvFile, aboutHeadline, timeline, stats, email, location, socialLinks,
+  seoTitle, seoDescription, ogImage
+}`;
+
+export const SKILLS_QUERY = `*[_type == "skillCategory"] | order(order asc){
+  label, colorHex, skills
 }`;

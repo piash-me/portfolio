@@ -1,18 +1,9 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { Search, Clock, ArrowUpRight } from 'lucide-react';
-
-const posts = [
-  { title: 'How I Automated Our Weekly SLA Report with Power BI', category: 'BI', readTime: '6 min', date: 'Jun 2026',
-    excerpt: 'What used to take six hours of manual spreadsheet work now refreshes itself every morning.' },
-  { title: 'Why Operations People Should Learn SQL Before Python', category: 'Automation', readTime: '5 min', date: 'May 2026',
-    excerpt: 'SQL got me querying real delivery data in a week. Here is the order I would recommend learning in.' },
-  { title: 'The Real Cost of a Missed SLA (And How We Track It)', category: 'Operations', readTime: '7 min', date: 'Apr 2026',
-    excerpt: 'A breakdown of the cost model we use to translate late deliveries into a number leadership reacts to.' },
-  { title: 'From Excel to Power BI: A Practical Migration Path', category: 'BI', readTime: '8 min', date: 'Mar 2026',
-    excerpt: 'Moving a team off spreadsheets does not happen overnight. Here is the phased approach that worked.' },
-];
+import { posts } from '@/lib/posts';
 
 const categories = ['All', 'Operations', 'BI', 'Automation'];
 
@@ -51,7 +42,7 @@ export default function BlogPage() {
 
         <div className="space-y-4">
           {filtered.map((p) => (
-            <a key={p.title} href="#" className="block glass rounded-2xl p-6 group">
+            <Link key={p.slug} href={`/blog/${p.slug}`} className="block glass rounded-2xl p-6 group">
               <div className="flex items-center gap-3 mb-3">
                 <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-400">{p.category}</span>
                 <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={11} /> {p.readTime}</span>
@@ -62,7 +53,7 @@ export default function BlogPage() {
                 <ArrowUpRight size={15} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               </h2>
               <p className="text-neutral-400 text-sm leading-relaxed">{p.excerpt}</p>
-            </a>
+            </Link>
           ))}
           {filtered.length === 0 && <p className="text-neutral-400 text-sm text-center py-16">No articles match that search yet.</p>}
         </div>

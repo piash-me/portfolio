@@ -4,13 +4,17 @@ import { useState } from 'react';
 import { Download, Eye, Briefcase, GraduationCap, Award, Truck, BarChart3, Bot, Users, X } from 'lucide-react';
 
 const experience = [
-  { role: 'E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — Al Khobar', period: 'Sep 2022 — Present', points: [
-    'Own On-Time Delivery (OTD), cost-per-delivery (CPD/CPO), and rider utilization across the last-mile fleet.',
+  { role: 'E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — All Regions', period: 'Present', points: [
+    'Promoted from Regional E-commerce Operations Team Leader (East Region) to oversee last-mile operations monitoring and performance across all regions nationwide.',
+    'Own On-Time Delivery (OTD), cost-per-delivery (CPD/CPO), and rider utilization across the last-mile fleet at national scale.',
     'Manage delivery workflows through last-mile technology platforms and coordinate with support teams on issue resolution.',
     'Use a data-driven approach — Excel, Power BI — to identify improvement opportunities and drive continuous improvement.',
   ]},
+  { role: 'Regional E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — East Region', period: 'Sep 2022 — Present', points: [
+    'Promoted from Delivery Driver to Regional E-commerce Operations Team Leader, taking ownership of OTD, cost-per-delivery, and team performance across the East Region.',
+  ]},
   { role: 'Delivery Driver', org: 'Al-Dawaa Medical Services Co. — Jazan Region', period: 'Mar 2022 — Sep 2022', points: [
-    'Frontline last-mile delivery execution ahead of promotion to Operations Team Leader.',
+    'Frontline last-mile delivery execution ahead of promotion to Regional E-commerce Operations Team Leader.',
   ]},
   { role: 'Delivery Driver', org: 'HungerStation & Mrsool — Buraydah, Al Qasim', period: 'Jan 2019 — Feb 2022', points: [
     'Three years of frontline last-mile delivery across two major Saudi delivery platforms.',
@@ -49,7 +53,8 @@ export default function ResumePage() {
           <div>
             <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">RESUME</p>
             <h1 className="display-font text-3xl sm:text-4xl text-white mb-2">Mohammad Piash</h1>
-            <p className="text-neutral-400 max-w-md">E-commerce Operations Team Leader improving operations through data analysis.</p>
+            <p className="text-neutral-300 text-sm max-w-md leading-relaxed">E-commerce Operations Team Leader | Last-Mile Delivery Operations | Operations Analytics | Process Optimization | Performance Improvement</p>
+            <p className="text-bronze text-xs font-medium mt-2">Al-Dawaa Medical Services Co.</p>
             <p className="mono-font text-xs text-neutral-400 mt-3">Version 3 · Updated July 2026</p>
           </div>
           <div className="flex gap-3">
