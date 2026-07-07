@@ -75,8 +75,16 @@ body {
 
 @keyframes chart3dSpin { from { transform: rotateY(0deg) rotateX(8deg); } to { transform: rotateY(360deg) rotateX(8deg); } }
 @keyframes roleOrbitSpin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+@keyframes dpBarRise { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.25); } }
+@keyframes dpDraw { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+@keyframes dpDotPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes dpFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .chart3d-spin { animation: chart3dSpin 14s linear infinite; }
 .role-orbit-spin { animation: roleOrbitSpin 10s linear infinite; }
+.dp-bar { animation: dpBarRise 3.2s ease-in-out infinite; transform-origin: bottom; transform-box: fill-box; }
+.dp-line { stroke-dasharray: 6 4; animation: dpDraw 1.8s ease-in-out infinite; }
+.dp-dot { animation: dpDotPulse 2.4s ease-in-out infinite; }
+.dp-float { animation: dpFloat 4s ease-in-out infinite; }
 
 .skill-bar-fill { transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 
@@ -84,7 +92,8 @@ body {
 ::-webkit-scrollbar-thumb { background: #1c1d21; border-radius: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-up, .signal-node, .signal-line, .float-slow, .grad-text, .chart3d-spin, .role-orbit-spin {
+  .fade-up, .signal-node, .signal-line, .float-slow, .grad-text, .chart3d-spin, .role-orbit-spin,
+  .dp-bar, .dp-line, .dp-dot, .dp-float {
     animation: none !important;
     opacity: 1 !important;
   }
