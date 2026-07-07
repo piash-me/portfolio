@@ -1,4 +1,4 @@
-# Your Name — Portfolio
+# Mohammad Piash — Portfolio
 
 Premium, dynamic portfolio built with Next.js 14 (App Router), TypeScript, Tailwind CSS, and Sanity CMS.
 
@@ -35,7 +35,7 @@ Visit `http://localhost:3000`.
 - `/public/photo.jpg` — your professional photo
 - `/public/cv.pdf` — your CV file
 - `/public/og-image.png` — 1200×630 image for social share previews
-- All "Your Name" instances in `app/layout.tsx`, `app/page.tsx`, `components/Navbar.tsx`
+- Everything is already personalized with your real name, photo, CV, and experience.
 - Social links (LinkedIn/GitHub) in `app/page.tsx`
 - Real project/blog data — once Sanity is connected, replace the hardcoded arrays in
   `app/page.tsx` and `app/blog/page.tsx` with `sanityClient.fetch(PROJECTS_QUERY)` calls (see `lib/sanity.ts`)
