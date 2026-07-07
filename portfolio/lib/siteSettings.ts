@@ -32,6 +32,8 @@ export type SiteSettings = {
   email: string;
   location: string;
   socialLinks: SocialLink[];
+  photoUrl?: string; // from Sanity Site Settings \u2014 falls back to /public/photo.jpg when not set
+  cvUrl?: string;    // from Sanity Site Settings \u2014 falls back to /public/cv.pdf when not set
 };
 
 // This is the actual current content of the site. Once real values are added in
@@ -51,12 +53,12 @@ export const fallbackSiteSettings: SiteSettings = {
     'Data-Driven Operations Leader',
   ],
   badgeText: 'OPEN TO DATA ANALYST ROLES',
-  aboutHeadline: 'Same job, sharper method: operations run on data now.',
+  aboutHeadline: 'Same responsibilities. Sharper tools.',
   timeline: [
-    { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', description: 'Frontline last-mile delivery — where the operational instincts started.' },
+    { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', description: 'Frontline last-mile delivery — the starting point for everything that followed.' },
     { year: '2022', title: 'Delivery Driver', company: 'Al-Dawaa Medical Services Co. — Jazan', description: 'Moved into e-commerce delivery operations.' },
-    { year: '2022', title: 'Promoted to Regional E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — East Region', description: 'Took ownership of OTD, cost-per-delivery, rider utilization, and team performance across the East Region.' },
-    { year: 'Now', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', description: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
+    { year: '2022', title: 'Promoted to Regional E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — East Region', description: 'Took ownership of OTD, rider utilization, and team performance across the East Region.' },
+    { year: '2026', title: 'Promoted to E-commerce Operations Team Leader', company: 'Al-Dawaa Medical Services Co. — All Regions', description: 'Expanded from East Region to operations monitoring and performance oversight across all regions nationwide.' },
   ],
   stats: [
     { label: 'Years in E-commerce Ops', value: 4, suffix: '+' },

@@ -13,13 +13,13 @@ export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc){
 }`;
 
 export const POSTS_QUERY = `*[_type == "post" && status == "Published"] | order(publishedAt desc){
-  title, "slug": slug.current, category, excerpt, featuredImage, publishedAt
+  title, "slug": slug.current, category, excerpt, featuredImage, publishedAt, body
 }`;
 
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   name, currentTitle, company, heroEyebrow, heroHeadline, heroSubtext, roleTags, badgeText,
-  photo, cvFile, aboutHeadline, timeline, stats, email, location, socialLinks,
-  seoTitle, seoDescription, ogImage
+  "photoUrl": photo.asset->url, "cvUrl": cvFile.asset->url, aboutHeadline, timeline, stats,
+  email, location, socialLinks, seoTitle, seoDescription, "ogImageUrl": ogImage.asset->url
 }`;
 
 export const SKILLS_QUERY = `*[_type == "skillCategory"] | order(order asc){

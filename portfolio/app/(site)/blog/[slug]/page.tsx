@@ -1,14 +1,19 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { PortableText } from '@portabletext/react';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
-import { posts } from '@/lib/posts';
+import { getPosts } from '@/lib/posts';
 import type { Metadata } from 'next';
 
-export function generateStaticParams() {
+export const revalidate = 60; // re-checks Sanity at most once a minute — new posts show up without a redeploy
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
   return posts.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const posts = await getPosts();
   const post = posts.find((p) => p.slug === params.slug);
   if (!post) return {};
   return {
@@ -17,11 +22,35 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+// Local example posts use a simple { type: 'paragraph' | 'heading' | 'code' } shape.
+// Real Sanity posts use Portable Text blocks ({ _type: 'block' | 'code' | 'image' })
+// instead. This checks which shape we actually got and renders accordingly.
+function isPortableText(body: any[]): boolean {
+  return body.length > 0 && '_type' in body[0];
+}
+
+const portableTextComponents = {
+  types: {
+    code: ({ value }: any) => (
+      <div className="rounded-xl overflow-hidden border border-white/10">
+        <div className="bg-white/5 px-4 py-2 mono-font text-[11px] text-neutral-400">{value?.language || 'code'}</div>
+        <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-neutral-200 whitespace-pre">{value?.code}</code></pre>
+      </div>
+    ),
+  },
+  block: {
+    h2: ({ children }: any) => <h2 className="display-font text-xl text-white pt-6">{children}</h2>,
+    normal: ({ children }: any) => <p className="text-neutral-300 leading-relaxed">{children}</p>,
+  },
+};
+
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const posts = await getPosts();
   const post = posts.find((p) => p.slug === params.slug);
   if (!post) notFound();
 
-  const headings = post.body.filter((b) => b.type === 'heading') as { type: 'heading'; text: string; id: string }[];
+  const usingPortableText = isPortableText(post.body);
+  const headings = usingPortableText ? [] : (post.body as any[]).filter((b) => b.type === 'heading') as { type: 'heading'; text: string; id: string }[];
   const related = posts.filter((p) => p.category === post.category && p.slug !== post.slug).slice(0, 2);
 
   return (
@@ -33,8 +62,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
         <div className="flex items-center gap-3 mb-4">
           <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{post.category}</span>
-          <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>
-          <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Calendar size={12} /> {post.date}</span>
+          {post.readTime && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>}
+          {post.date && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Calendar size={12} /> {post.date}</span>}
         </div>
 
         <h1 className="display-font text-3xl sm:text-4xl text-white mb-4">{post.title}</h1>
@@ -46,7 +75,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <ul className="space-y-1.5">
               {headings.map((h) => (
                 <li key={h.id}>
-                  <a href={`#${h.id}`} className="text-sm text-neutral-300 hover:text-violet-300 transition-colors">{h.text}</a>
+                  <a href={`#${h.id}`} className="text-sm text-neutral-300 hover:text-violet transition-colors">{h.text}</a>
                 </li>
               ))}
             </ul>
@@ -54,23 +83,27 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         )}
 
         <div className="space-y-5">
-          {post.body.map((block, i) => {
-            if (block.type === 'paragraph') {
-              return <p key={i} className="text-neutral-300 leading-relaxed">{block.text}</p>;
-            }
-            if (block.type === 'heading') {
-              return <h2 key={i} id={block.id} className="display-font text-xl text-white pt-6">{block.text}</h2>;
-            }
-            if (block.type === 'code') {
-              return (
-                <div key={i} className="rounded-xl overflow-hidden border border-white/10">
-                  <div className="bg-white/5 px-4 py-2 mono-font text-[11px] text-neutral-400">{block.language}</div>
-                  <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-neutral-200 whitespace-pre">{block.code}</code></pre>
-                </div>
-              );
-            }
-            return null;
-          })}
+          {usingPortableText ? (
+            <PortableText value={post.body} components={portableTextComponents} />
+          ) : (
+            (post.body as any[]).map((block, i) => {
+              if (block.type === 'paragraph') {
+                return <p key={i} className="text-neutral-300 leading-relaxed">{block.text}</p>;
+              }
+              if (block.type === 'heading') {
+                return <h2 key={i} id={block.id} className="display-font text-xl text-white pt-6">{block.text}</h2>;
+              }
+              if (block.type === 'code') {
+                return (
+                  <div key={i} className="rounded-xl overflow-hidden border border-white/10">
+                    <div className="bg-white/5 px-4 py-2 mono-font text-[11px] text-neutral-400">{block.language}</div>
+                    <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-neutral-200 whitespace-pre">{block.code}</code></pre>
+                  </div>
+                );
+              }
+              return null;
+            })
+          )}
         </div>
 
         {related.length > 0 && (

@@ -11,11 +11,11 @@ export type PostBlock =
 export type Post = {
   slug: string;
   title: string;
-  category: 'BI' | 'Automation' | 'Operations';
-  readTime: string;
-  date: string;
+  category: string; // flexible, same reasoning as Project['category']
+  readTime?: string; // only present on the local fallback examples — Sanity posts don't have this field
+  date?: string;
   excerpt: string;
-  body: PostBlock[];
+  body: PostBlock[] | any[]; // local examples use PostBlock[]; live Sanity posts use Portable Text blocks instead — see the detail page for how both are rendered
 };
 
 export const posts: Post[] = [
@@ -87,3 +87,16 @@ export const posts: Post[] = [
     ],
   },
 ];
+
+// Fetches live posts from Sanity if configured and has content; otherwise falls
+// back to the examples above. Same pattern as getProjects() in lib/projects.ts.
+export async function getPosts(): Promise<Post[]> {
+  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return posts;
+  try {
+    const { sanityClient, POSTS_QUERY } = await import('./sanity');
+    const live = await sanityClient.fetch(POSTS_QUERY);
+    return Array.isArray(live) && live.length > 0 ? live : posts;
+  } catch {
+    return posts;
+  }
+}

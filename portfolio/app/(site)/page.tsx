@@ -99,15 +99,15 @@ function SignalPath() {
       </svg>
       <div className="flex justify-between text-[10px] font-mono tracking-wider text-neutral-400 mt-1 px-1 select-none">
         <span>ROUTES · SLA · FLEET</span>
-        <span className="text-violet-300/70">SIGNAL · INSIGHT · SCALE</span>
+        <span className="text-violet/70">SIGNAL · INSIGHT · SCALE</span>
       </div>
     </div>
   );
 }
 
 const professions = [
-  { title: 'Data Analyst', icon: BarChart3, color: '#8B7CF6', desc: 'Turns operational numbers — OTD, CPD/CPO, rider utilization — into dashboards and decisions. My core skill.' },
-  { title: 'Operations Leader', icon: Truck, color: '#C77D3D', desc: 'Applies that skill inside real last-mile operations — fleets, SLAs, rider performance, nationwide.' },
+  { title: 'Data Analyst', icon: BarChart3, color: '#8B7CF6', desc: 'Turns operational numbers — OTD, CPD/CPO, rider utilization — into dashboards and decisions.' },
+  { title: 'Operations Leader', icon: Truck, color: '#C77D3D', desc: 'Applies that skill inside last-mile operations — fleets, SLAs, rider performance, nationwide.' },
   { title: 'Process Improver', icon: Bot, color: '#5EC8D8', desc: 'Finds root causes and builds repeatable fixes, automating what used to be manual reporting.' },
 ];
 
@@ -249,13 +249,13 @@ export default function HomePage() {
               {headlinePlain}{headlineGrad && <span className="grad-text">{headlineGrad}</span>}
             </h1>
             <p className="mt-5 text-lg text-neutral-300 h-7">
-              {typedRole}<span className="inline-block w-[2px] h-5 bg-violet-300 ml-1 align-middle animate-pulse" />
+              {typedRole}<span className="inline-block w-[2px] h-5 bg-violet ml-1 align-middle animate-pulse" />
             </p>
             <p className="mt-4 text-neutral-300 max-w-xl leading-relaxed mx-auto md:mx-0">
               {settings.heroSubtext}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
-              <a href="/cv.pdf" download className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
+              <a href={settings.cvUrl || '/cv.pdf'} download className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
                 <Download size={16} /> Download CV
               </a>
               <a href="#projects" className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 text-sm hover:border-violet/50 hover:text-violet transition-colors">
@@ -271,7 +271,7 @@ export default function HomePage() {
             <div className="relative w-56 h-56 sm:w-64 sm:h-64">
               <div className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl" style={{ background: 'linear-gradient(135deg, #C77D3D, #8B7CF6)' }} />
               <div className="relative w-full h-full rounded-[2rem] glass overflow-hidden flex items-center justify-center">
-                <Image src="/photo.jpg" alt={settings.name} fill className="object-cover" priority />
+                <Image src={settings.photoUrl || '/photo.jpg'} alt={settings.name} fill className="object-cover" priority />
               </div>
               <div className="absolute -bottom-3 -right-3 px-3.5 py-1.5 rounded-full bg-white text-black mono-font text-[10px] font-semibold shadow-lg">
                 {settings.badgeText}
@@ -309,8 +309,8 @@ export default function HomePage() {
         <div className="relative pl-8 border-l border-white/10 space-y-10">
           {settings.timeline.map((t, i) => (
             <div key={i} className="relative">
-              <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet-300" />
-              <p className="mono-font text-xs text-violet-300 mb-1">{t.year}</p>
+              <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet" />
+              <p className="mono-font text-xs text-violet mb-1">{t.year}</p>
               <h3 className="text-white font-medium text-lg">{t.title}</h3>
               <p className="text-bronze text-xs font-medium mt-0.5">{t.company}</p>
               <p className="text-neutral-300 text-sm mt-1.5 max-w-lg">{t.description}</p>
@@ -385,7 +385,7 @@ export default function HomePage() {
 
       {/* CONTACT */}
       <footer id="contact" className="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
-        <Database className="mx-auto mb-4 text-violet-300" size={28} />
+        <Database className="mx-auto mb-4 text-violet" size={28} />
         <h2 className="display-font text-2xl sm:text-3xl text-white mb-3">Let&apos;s talk about improving operations with data.</h2>
         <p className="text-neutral-400 text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
 

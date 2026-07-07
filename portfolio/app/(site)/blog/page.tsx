@@ -1,21 +1,26 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Search, Clock, ArrowUpRight } from 'lucide-react';
-import { posts } from '@/lib/posts';
-
-const categories = ['All', 'Operations', 'BI', 'Automation'];
+import { getPosts, posts as fallbackPosts, type Post } from '@/lib/posts';
 
 export default function BlogPage() {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState('All');
+  const [posts, setPosts] = useState<Post[]>(fallbackPosts);
+
+  useEffect(() => {
+    getPosts().then(setPosts);
+  }, []);
+
+  const categories = ['All', ...Array.from(new Set(posts.map((p) => p.category)))];
 
   const filtered = useMemo(() => posts.filter((p) => {
     const matchesCategory = active === 'All' || p.category === active;
     const matchesQuery = p.title.toLowerCase().includes(query.toLowerCase());
     return matchesCategory && matchesQuery;
-  }), [query, active]);
+  }), [posts, query, active]);
 
   return (
     <main className="min-h-screen pt-24">
@@ -45,10 +50,10 @@ export default function BlogPage() {
             <Link key={p.slug} href={`/blog/${p.slug}`} className="block glass rounded-2xl p-6 group">
               <div className="flex items-center gap-3 mb-3">
                 <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-400">{p.category}</span>
-                <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={11} /> {p.readTime}</span>
-                <span className="text-[11px] text-neutral-400">{p.date}</span>
+                {p.readTime && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={11} /> {p.readTime}</span>}
+                {p.date && <span className="text-[11px] text-neutral-400">{p.date}</span>}
               </div>
-              <h2 className="text-white font-medium text-lg mb-2 flex items-center gap-2 group-hover:text-violet-200 transition-colors">
+              <h2 className="text-white font-medium text-lg mb-2 flex items-center gap-2 group-hover:text-violet transition-colors">
                 {p.title}
                 <ArrowUpRight size={15} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               </h2>

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Download, Eye, Briefcase, GraduationCap, Award, Truck, BarChart3, Bot, Users, X } from 'lucide-react';
+import { getSiteSettings, fallbackSiteSettings, type SiteSettings } from '@/lib/siteSettings';
 
 const experience = [
   { role: 'E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — All Regions', period: 'Present', points: [
@@ -11,7 +12,7 @@ const experience = [
     'Use a data-driven approach — Excel, Power BI — to identify improvement opportunities and drive continuous improvement.',
   ]},
   { role: 'Regional E-commerce Operations Team Leader', org: 'Al-Dawaa Medical Services Co. — East Region', period: 'Sep 2022 — Present', points: [
-    'Promoted from Delivery Driver to Regional E-commerce Operations Team Leader, taking ownership of OTD, cost-per-delivery, and team performance across the East Region.',
+    'Promoted from Delivery Driver to Regional E-commerce Operations Team Leader, taking ownership of OTD, rider utilization, and team performance across the East Region.',
   ]},
   { role: 'Delivery Driver', org: 'Al-Dawaa Medical Services Co. — Jazan Region', period: 'Mar 2022 — Sep 2022', points: [
     'Frontline last-mile delivery execution ahead of promotion to Regional E-commerce Operations Team Leader.',
@@ -45,6 +46,11 @@ const skillPreview = [
 
 export default function ResumePage() {
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [settings, setSettings] = useState<SiteSettings>(fallbackSiteSettings);
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
 
   return (
     <main className="min-h-screen pt-24">
@@ -61,7 +67,7 @@ export default function ResumePage() {
             <button onClick={() => setPreviewOpen(true)} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300 hover:text-white transition-colors">
               <Eye size={15} /> Preview
             </button>
-            <a href="/cv.pdf" download className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
+            <a href={settings.cvUrl || '/cv.pdf'} download className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
               <Download size={15} /> Download CV
             </a>
           </div>
@@ -107,7 +113,7 @@ export default function ResumePage() {
 
         <section className="mb-16">
           <div className="flex items-center gap-2 mb-8">
-            <GraduationCap size={16} className="text-violet-300" />
+            <GraduationCap size={16} className="text-violet" />
             <h2 className="display-font text-xl text-white">Learning &amp; Education</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -115,7 +121,7 @@ export default function ResumePage() {
               <div key={ed.title} className="glass rounded-xl p-5">
                 <p className="text-white text-sm font-medium">{ed.title}</p>
                 <p className="text-neutral-400 text-xs mt-1">{ed.org}</p>
-                <p className="mono-font text-[10px] text-violet-300 mt-2">{ed.period}</p>
+                <p className="mono-font text-[10px] text-violet mt-2">{ed.period}</p>
               </div>
             ))}
           </div>
@@ -141,7 +147,7 @@ export default function ResumePage() {
               <X size={18} />
             </button>
             <p className="mono-font text-xs text-neutral-400 mb-4">CV PREVIEW</p>
-            <iframe src="/cv.pdf" className="w-full h-96 rounded-lg border border-white/10" title="CV preview" />
+            <iframe src={settings.cvUrl || '/cv.pdf'} className="w-full h-96 rounded-lg border border-white/10" title="CV preview" />
           </div>
         </div>
       )}

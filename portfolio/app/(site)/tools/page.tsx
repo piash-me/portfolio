@@ -9,7 +9,7 @@ function EmbeddedAppDemo() {
   return (
     <div className="glass rounded-2xl p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Zap size={16} className="text-violet-300" />
+        <Zap size={16} className="text-violet" />
         <h3 className="text-white font-medium">Embedded App</h3>
         <span className="mono-font text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-neutral-400 ml-auto">iframe</span>
       </div>
