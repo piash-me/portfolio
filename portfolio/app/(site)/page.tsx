@@ -369,7 +369,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
-          {filteredProjects.map((p) => (
+          {filteredProjects.slice(0, 4).map((p) => (
             <Link key={p.slug} href={`/projects/${p.slug}`} className="rounded-2xl glass p-6 group block">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -386,6 +386,13 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+        {filteredProjects.length > 4 && (
+          <div className="text-center mt-10">
+            <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/15 text-sm text-neutral-300 hover:border-violet/50 hover:text-violet transition-colors">
+              View All {filteredProjects.length} Projects <ArrowRight size={15} />
+            </Link>
+          </div>
+        )}
       </section>
 
       {/* CONTACT */}

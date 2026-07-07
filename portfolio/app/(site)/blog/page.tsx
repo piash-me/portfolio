@@ -5,10 +5,13 @@ import Link from 'next/link';
 import { Search, Clock, ArrowUpRight } from 'lucide-react';
 import { getPosts, posts as fallbackPosts, type Post } from '@/lib/posts';
 
+const PAGE_SIZE = 6;
+
 export default function BlogPage() {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState('All');
   const [posts, setPosts] = useState<Post[]>(fallbackPosts);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     getPosts().then(setPosts);
@@ -22,6 +25,8 @@ export default function BlogPage() {
     return matchesCategory && matchesQuery;
   }), [posts, query, active]);
 
+  const visible = filtered.slice(0, visibleCount);
+
   return (
     <main className="min-h-screen pt-24">
       <div className="max-w-4xl mx-auto px-6 py-16">
@@ -32,12 +37,12 @@ export default function BlogPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <div className="flex items-center gap-2 glass rounded-full px-4 py-2.5 flex-1">
             <Search size={15} className="text-neutral-400" />
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search articles"
+            <input value={query} onChange={(e) => { setQuery(e.target.value); setVisibleCount(PAGE_SIZE); }} placeholder="Search articles"
               className="bg-transparent outline-none text-sm text-neutral-200 placeholder-neutral-500 w-full" />
           </div>
           <div className="flex gap-2 flex-wrap">
             {categories.map((c) => (
-              <button key={c} onClick={() => setActive(c)}
+              <button key={c} onClick={() => { setActive(c); setVisibleCount(PAGE_SIZE); }}
                 className={`px-4 py-1.5 rounded-full text-xs border transition-colors ${
                   active === c ? 'bg-white text-black border-white' : 'border-white/15 text-neutral-400 hover:border-white/30'
                 }`}>{c}</button>
@@ -46,7 +51,7 @@ export default function BlogPage() {
         </div>
 
         <div className="space-y-4">
-          {filtered.map((p) => (
+          {visible.map((p) => (
             <Link key={p.slug} href={`/blog/${p.slug}`} className="block glass rounded-2xl p-6 group">
               <div className="flex items-center gap-3 mb-3">
                 <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-400">{p.category}</span>
@@ -62,6 +67,15 @@ export default function BlogPage() {
           ))}
           {filtered.length === 0 && <p className="text-neutral-400 text-sm text-center py-16">No articles match that search yet.</p>}
         </div>
+
+        {visibleCount < filtered.length && (
+          <div className="text-center mt-10">
+            <button onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              className="px-6 py-2.5 rounded-full border border-white/15 text-sm text-neutral-300 hover:border-violet/50 hover:text-violet transition-colors">
+              Load More ({filtered.length - visibleCount} remaining)
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
