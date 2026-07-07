@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import ContactForm from '@/components/ContactForm';
 import {
   ArrowRight, Download, Mail, Truck, BarChart3, Bot, Users, Database,
-  Github, Linkedin, ExternalLink, Copy, Check, MapPin,
+  Github, Linkedin, ExternalLink, Copy, Check, MapPin, Facebook, Instagram,
+  Twitter, MessageCircle, Send, Loader2,
 } from 'lucide-react';
 
 const ROLES = [
@@ -386,15 +388,22 @@ export default function HomePage() {
         <Database className="mx-auto mb-4 text-violet-300" size={28} />
         <h2 className="display-font text-2xl sm:text-3xl text-white mb-3">Let&apos;s talk about improving operations with data.</h2>
         <p className="text-neutral-400 text-sm max-w-md mx-auto mb-8">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
+
+        <ContactForm />
+
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300 hover:text-white transition-colors">
             {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />} {copied ? 'Copied' : 'piashm03@gmail.com'}
           </button>
           <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300"><MapPin size={15} /> Al Khobar, Eastern, Saudi Arabia</span>
         </div>
-        <div className="flex justify-center gap-5 text-neutral-400">
-          <a href="https://www.linkedin.com/in/mohammadpiash" target="_blank" rel="noopener noreferrer"><Linkedin size={18} className="hover:text-white transition-colors" /></a>
-          <Github size={18} className="hover:text-white transition-colors" />
+        <div className="flex flex-wrap justify-center gap-5 text-neutral-400">
+          <a href="https://www.linkedin.com/in/mohammadpiash" target="_blank" rel="noopener noreferrer" title="LinkedIn"><Linkedin size={18} className="hover:text-white transition-colors" /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer" title="GitHub"><Github size={18} className="hover:text-white transition-colors" /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer" title="Facebook"><Facebook size={18} className="hover:text-white transition-colors" /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer" title="Instagram"><Instagram size={18} className="hover:text-white transition-colors" /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer" title="X (Twitter)"><Twitter size={18} className="hover:text-white transition-colors" /></a>
+          <a href="https://wa.me/966562677858" target="_blank" rel="noopener noreferrer" title="WhatsApp"><MessageCircle size={18} className="hover:text-white transition-colors" /></a>
         </div>
       </footer>
     </main>

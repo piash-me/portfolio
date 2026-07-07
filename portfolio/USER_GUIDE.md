@@ -115,7 +115,18 @@ Content changes (above) never need a developer. Design/structural changes — li
 
 ---
 
-## Part 4 — Adding a Future Data/Automation Tool
+## Part 4 — Making the Contact Form Actually Send Emails
+
+The contact form on your homepage is already built and functional in the code — it just needs one free account to actually deliver messages to your inbox:
+
+1. Go to [resend.com](https://resend.com) → sign up free
+2. Create an API key from their dashboard
+3. Add it to `.env.local` (and in Vercel's project settings): `RESEND_API_KEY=your_key_here`
+4. Redeploy (or just `git push` if already live) — the form now emails `piashm03@gmail.com` directly when someone submits it
+
+Until this is set up, submissions are safely logged on the server instead of failing, so nothing breaks — they just won't reach your inbox yet.
+
+## Part 5 — Adding a Future Data/Automation Tool
 
 Two ways, both explained with a working example in `app/tools/page.tsx`:
 
@@ -124,7 +135,7 @@ Two ways, both explained with a working example in `app/tools/page.tsx`:
 
 ---
 
-## Part 5 — Maintenance & Troubleshooting
+## Part 6 — Maintenance & Troubleshooting
 
 | Issue | What to do |
 |---|---|
