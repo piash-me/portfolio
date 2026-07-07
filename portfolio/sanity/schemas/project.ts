@@ -1,0 +1,27 @@
+export default {
+  name: 'project',
+  title: 'Project',
+  type: 'document',
+  fields: [
+    { name: 'title', type: 'string', title: 'Title' },
+    { name: 'slug', type: 'slug', options: { source: 'title' } },
+    { name: 'category', type: 'string', options: { list: ['Operations', 'BI', 'Automation'] } },
+    { name: 'tags', type: 'array', of: [{ type: 'string' }] },
+    { name: 'status', type: 'string', options: { list: ['Live', 'In Progress', 'Archived'] } },
+    { name: 'summary', type: 'text' },
+    { name: 'problem', type: 'text' },
+    { name: 'solution', type: 'text' },
+    { name: 'impact', type: 'text' },
+    { name: 'coverImage', type: 'image', options: { hotspot: true } },
+    { name: 'gallery', type: 'array', of: [{ type: 'image' }] },
+    { name: 'githubUrl', type: 'url' },
+    { name: 'liveUrl', type: 'url' },
+    { name: 'date', type: 'date' },
+    { name: 'featured', type: 'boolean' },
+    // Interactive tool support (for automation/data-analyst apps you build later)
+    { name: 'toolType', title: 'Interactive Tool Type', type: 'string',
+      options: { list: ['None', 'Embedded App', 'API-backed Tool'] }, initialValue: 'None' },
+    { name: 'embedUrl', title: 'Embed URL (Streamlit / Power BI / Hugging Face Space)', type: 'url' },
+    { name: 'liveToolPath', title: 'Native Tool Path (e.g. /tools/sla-predictor)', type: 'string' },
+  ],
+};

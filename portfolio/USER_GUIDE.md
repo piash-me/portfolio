@@ -1,0 +1,153 @@
+# User Guide — Going Live, Updating Content, and Managing Your Site
+
+This is the plain-language version of the README: what to do, in order, with no code knowledge assumed beyond running a few commands once.
+
+---
+
+## Part 1 — Going Live (one-time setup)
+
+### Step 1: Install the tools on your computer
+You need [Node.js](https://nodejs.org) (LTS version) installed once. Then:
+
+```bash
+unzip portfolio-nextjs-project.zip
+cd portfolio
+npm install
+```
+
+### Step 2: Create your free Sanity account (this becomes your admin panel)
+```bash
+cd sanity
+npx sanity init
+```
+This opens a browser login, asks you to name your project, and gives you a **Project ID**. Copy it.
+
+### Step 3: Connect the website to your admin panel
+In the main `portfolio` folder, copy `.env.example` to `.env.local` and paste your Project ID in:
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
+NEXT_PUBLIC_SANITY_DATASET=production
+```
+
+### Step 4: Preview it locally
+```bash
+npm run dev
+```
+Open `http://localhost:3000` — this is your site, running on your computer.
+
+### Step 5: Put your content in
+- Replace `public/photo.jpg` with your photo (already done — your real photo is in there)
+- Replace `public/cv.pdf` with your latest CV (already done — your uploaded resume is in there)
+- Update the email/LinkedIn/location text if anything changes later — see Part 3
+
+### Step 6: Publish the code to GitHub
+If you don't have GitHub yet, create a free account at github.com, then:
+```bash
+git init
+git add .
+git commit -m "Initial portfolio"
+```
+Create a new repository on GitHub's website, then follow the two commands it shows you to push your code there.
+
+### Step 7: Go live on Vercel (free hosting)
+1. Go to [vercel.com](https://vercel.com), sign up with your GitHub account
+2. Click "New Project," select your portfolio repository
+3. Before clicking Deploy, add your environment variables (the same ones from `.env.local`) in the Vercel settings screen
+4. Click Deploy — in about a minute, your site is live at a free `yourproject.vercel.app` address
+
+### Step 8: Connect your own domain (optional but recommended)
+1. Buy a domain (e.g. `mohammadpiash.com`) from Namecheap or Cloudflare — usually $10–15/year
+2. In Vercel, go to your project → Settings → Domains → add your domain
+3. Vercel shows you 1–2 DNS records to add at your domain registrar — follow their instructions exactly
+4. Within a few hours, your custom domain points to your live site
+
+### Step 9: Deploy your admin panel
+```bash
+cd sanity
+npx sanity deploy
+```
+This gives you a free admin panel at `yourproject.sanity.studio` — bookmark this. This is where you'll manage everything from now on, with no code.
+
+**You're live. Everything from here is Part 2 and 3 — no developer needed.**
+
+---
+
+## Part 2 — Updating Content (using the admin panel)
+
+Go to your `yourproject.sanity.studio` link and log in.
+
+### Adding a new project
+1. Click "Project" in the left sidebar → "Create new"
+2. Fill in Title, Category, Tags, Status, Summary, Cover Image
+3. If it's an automation/data tool you built:
+   - Set **Interactive Tool Type** to "Embedded App" (if hosted elsewhere, like Streamlit) or "API-backed Tool" (if it's a simple calculator-style tool)
+   - Paste the URL in **Embed URL** if applicable
+4. Click Publish — it appears on your live site within seconds, no redeploy needed
+
+### Writing and publishing a blog post
+1. Click "Blog Post" → "Create new"
+2. Write your title, pick a category, add a featured image
+3. Write the body using the rich text editor (supports headings, code blocks, images)
+4. Set Status to "Draft" while writing, "Published" when ready
+5. Click Publish
+
+### Updating your CV
+1. Click "Site Settings"
+2. Under **CV File**, upload your new PDF
+3. Publish — the Download CV button now serves the new file
+
+### Updating your photo
+Same as above, under **Photo** in Site Settings.
+
+### Updating your email, location, or social links
+All under Site Settings — edit the field, click Publish.
+
+---
+
+## Part 3 — The Update Process (when you want to change the site's design or add a page)
+
+Content changes (above) never need a developer. Design/structural changes — like adding a whole new page or changing the layout — go through this cycle:
+
+1. Make the change in the code (ask me any time, or edit the `.tsx` files directly if you're comfortable)
+2. Test it locally: `npm run dev`
+3. Push the change to GitHub: `git add . && git commit -m "describe the change" && git push`
+4. Vercel automatically redeploys — usually live within a minute, no manual steps
+
+---
+
+## Part 4 — Adding a Future Data/Automation Tool
+
+Two ways, both explained with a working example in `app/tools/page.tsx`:
+
+- **Built in Streamlit/Python?** Host it free on Streamlit Community Cloud or Hugging Face Spaces, then add it as a Project in Sanity with Tool Type "Embedded App" and the URL.
+- **A simple in-browser tool (a form → a result)?** I can build you a matching API route under `app/api/tools/your-tool/route.ts` — just describe what it should calculate.
+
+---
+
+## Part 5 — Maintenance & Troubleshooting
+
+| Issue | What to do |
+|---|---|
+| Site looks broken after a deploy | Check the Vercel dashboard's "Deployments" tab for the build error log, or ask me to review it |
+| Forgot Sanity Studio password | Use "Forgot password" on the Sanity login screen — it's tied to your email |
+| Want to back up your content | Sanity keeps a full history of every document automatically; for a manual export, run `npx sanity dataset export` from the `/sanity` folder |
+| Domain not working after adding DNS records | DNS changes can take up to 24–48 hours; check propagation at whatsmydns.net |
+| Want to check site speed/SEO health | Run a free scan at pagespeed.web.dev with your live URL |
+
+---
+
+## What's Included in This Package
+
+- Full Next.js source code (`app/`, `components/`, `lib/`)
+- Sanity CMS schemas and config (`sanity/`) — this is your admin panel's data model
+- Your real photo and CV already placed in `public/`
+- `README.md` — the technical version of this guide
+- This file — the plain-language version
+
+## What Still Needs Building (flagged honestly, not hidden)
+
+- Single project case-study page and single blog post page (detail views)
+- The contact form's backend (currently the form fields aren't wired to send email — needs a service like Resend, ~15 minutes to add)
+- Analytics script tags (Google Analytics / Search Console verification)
+
+Ask me for any of these whenever you're ready — each is a small, self-contained addition to what's already here.
