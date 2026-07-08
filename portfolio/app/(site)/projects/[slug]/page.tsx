@@ -74,11 +74,11 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
             <p className="text-neutral-300 leading-relaxed">{project.impact}</p>
           </section>
 
-          {project.toolType === 'Embedded App' && project.embedUrl && (
+          {project.toolType === 'Embedded App' && (project.toolFileUrl || project.embedUrl) && (
             <section>
               <p className="mono-font text-xs tracking-[0.3em] text-neutral-400 mb-3">TRY IT LIVE</p>
               <div className="rounded-2xl overflow-hidden border border-white/10 glass">
-                <iframe src={project.embedUrl} className="w-full h-[560px]" title={`${project.title} live view`} allowFullScreen />
+                <iframe src={project.toolFileUrl || project.embedUrl} className="w-full h-[560px]" title={`${project.title} live view`} allowFullScreen />
               </div>
             </section>
           )}

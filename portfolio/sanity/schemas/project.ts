@@ -23,6 +23,8 @@ export default {
       options: { list: ['None', 'Embedded App', 'API-backed Tool', 'External Link'] }, initialValue: 'None',
       description: '"Embedded App" shows it live inside the page (Power BI "Publish to web", Streamlit, Hugging Face Spaces — anything that allows iframe embedding). "External Link" shows a button that opens it elsewhere (use this for Google Colab notebooks — Colab blocks embedding, so a direct link is the only reliable option). "API-backed Tool" is for small tools built directly into this site.' },
     { name: 'embedUrl', title: 'Embed URL (Power BI / Streamlit / Hugging Face) OR External Link URL (Colab, etc.)', type: 'url' },
+    { name: 'toolFile', title: 'Upload Tool File (self-contained .html tool)', type: 'file',
+      description: 'Use this INSTEAD of Embed URL when your tool is a single self-contained HTML file (like a JS-only calculator or generator). Upload it here, set Interactive Tool Type to "Embedded App", and it renders live on this project\u2019s page — no code push needed, ever.' },
     { name: 'liveToolPath', title: 'Native Tool Path (e.g. /tools/sla-predictor)', type: 'string' },
   ],
 };
