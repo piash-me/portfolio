@@ -8,8 +8,8 @@ import { getSiteSettings, fallbackSiteSettings, type SiteSettings } from '@/lib/
 import { getSkills, fallbackSkills, type SkillCategory } from '@/lib/skills';
 import {
   ArrowRight, Download, Mail, Truck, BarChart3, Bot, Users, Database, Sparkles,
-  Github, Linkedin, ExternalLink, Copy, Check, MapPin, Facebook, Instagram,
-  Twitter, MessageCircle, Youtube, Music2, Link2,
+  Github, Linkedin, ExternalLink, Check, MapPin, Facebook, Instagram,
+  Twitter, MessageCircle, Youtube, Music2, Link2, MessageSquare, Send, Palette, Image as ImageIcon, BookOpen,
 } from 'lucide-react';
 
 function useTypingEffect(words: string[], typingSpeed = 55, pauseTime = 1400) {
@@ -200,6 +200,11 @@ function iconForPlatform(platform: string) {
     case 'WhatsApp': return MessageCircle;
     case 'YouTube': return Youtube;
     case 'TikTok': return Music2;
+    case 'Discord': return MessageSquare;
+    case 'Telegram': return Send;
+    case 'Dribbble': return Palette;
+    case 'Behance': return ImageIcon;
+    case 'Medium': return BookOpen;
     default: return Link2;
   }
 }
@@ -401,14 +406,15 @@ export default function HomePage() {
         <h2 className="display-font text-2xl sm:text-3xl text-fg mb-3">Let&apos;s talk about improving operations with data.</h2>
         <p className="text-fg-muted text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
 
-        <a href={`mailto:${settings.email}`} className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-btn-primary text-btn-primary-fg font-medium text-sm hover:opacity-90 transition-colors mb-6">
-          <Mail size={16} /> Email Me Directly
+        <a
+          href={`mailto:${settings.email}`}
+          onClick={copyEmail}
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-btn-primary text-btn-primary-fg font-medium text-sm hover:opacity-90 transition-colors mb-8"
+        >
+          {copied ? <Check size={16} /> : <Mail size={16} />} {copied ? 'Email Copied' : settings.email}
         </a>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-fg-muted hover:text-fg transition-colors">
-            {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />} {copied ? 'Copied' : settings.email}
-          </button>
           <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-fg-muted"><MapPin size={15} /> {settings.location}</span>
         </div>
         <div className="flex flex-wrap justify-center gap-5 text-fg-muted">

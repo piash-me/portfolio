@@ -9,7 +9,7 @@ export default {
 
     // Hero section
     { name: 'heroEyebrow', title: 'Hero Small Label', type: 'string', description: 'e.g. "OPERATIONS, IMPROVED THROUGH DATA"' },
-    { name: 'heroHeadline', title: 'Hero Headline', type: 'string' },
+    { name: 'heroHeadline', title: 'Hero Headline', type: 'string', description: 'Use a | to mark where the gradient color starts, e.g. "I look for the |insight hiding in operations data." — include a space right before the |, or the two halves will run together with no gap.' },
     { name: 'heroSubtext', title: 'Hero Paragraph', type: 'text' },
     { name: 'roleTags', title: 'Rotating Role Titles', type: 'array', of: [{ type: 'string' }], description: 'The words that type/rotate under the headline' },
     { name: 'badgeText', title: 'Photo Badge Text', type: 'string', description: 'e.g. "OPEN TO DATA ANALYST ROLES"' },
@@ -59,7 +59,7 @@ export default {
       of: [{
         type: 'object',
         fields: [
-          { name: 'platform', title: 'Platform', type: 'string', options: { list: ['LinkedIn', 'GitHub', 'Facebook', 'Instagram', 'X (Twitter)', 'WhatsApp', 'YouTube', 'TikTok', 'Other'] } },
+          { name: 'platform', title: 'Platform', type: 'string', options: { list: ['LinkedIn', 'GitHub', 'Facebook', 'Instagram', 'X (Twitter)', 'WhatsApp', 'YouTube', 'TikTok', 'Discord', 'Telegram', 'Dribbble', 'Behance', 'Medium', 'Other'] } },
           { name: 'url', title: 'URL', type: 'url' },
           { name: 'label', title: 'Custom Label (only if "Other")', type: 'string' },
         ],

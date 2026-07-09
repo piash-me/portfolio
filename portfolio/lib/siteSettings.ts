@@ -12,7 +12,7 @@ export type StatEntry = {
 };
 
 export type SocialLink = {
-  platform: 'LinkedIn' | 'GitHub' | 'Facebook' | 'Instagram' | 'X (Twitter)' | 'WhatsApp' | 'YouTube' | 'TikTok' | 'Other';
+  platform: 'LinkedIn' | 'GitHub' | 'Facebook' | 'Instagram' | 'X (Twitter)' | 'WhatsApp' | 'YouTube' | 'TikTok' | 'Discord' | 'Telegram' | 'Dribbble' | 'Behance' | 'Medium' | 'Other';
   url: string;
   label?: string;
 };
@@ -60,7 +60,7 @@ export const fallbackSiteSettings: SiteSettings = {
   currentTitle: 'E-commerce Operations Team Leader | Last-Mile Delivery Operations | Operations Analytics | Process Optimization | Performance Improvement',
   company: 'Al-Dawaa Medical Services Co.',
   heroEyebrow: 'OPERATIONS, IMPROVED THROUGH DATA',
-  heroHeadline: 'I look for the|insight hiding in operations data.',
+  heroHeadline: 'I look for the |insight hiding in operations data.',
   heroSubtext: "I'm part of the last-mile delivery and operations team at Al-Dawaa Medical Services Co. across all regions of Saudi Arabia — monitoring fleet performance, SLA compliance, and driver output to keep things on track. I use SQL, Power BI, and Python to turn On-Time Delivery and rider utilization data into decisions that help move those numbers in the right direction, while bringing operational thinking and ideas for last-mile app enhancements to the table.",
   roleTags: [
     'Operations Data Analyst',
