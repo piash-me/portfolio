@@ -60,8 +60,8 @@ export const fallbackSiteSettings: SiteSettings = {
   currentTitle: 'E-commerce Operations Team Leader | Last-Mile Delivery Operations | Operations Analytics | Process Optimization | Performance Improvement',
   company: 'Al-Dawaa Medical Services Co.',
   heroEyebrow: 'OPERATIONS, IMPROVED THROUGH DATA',
-  heroHeadline: 'I improve operations by|analyzing the data.',
-  heroSubtext: 'I lead last-mile delivery operations at Al-Dawaa Medical Services Co. across all regions of Saudi Arabia — accountable for fleet performance, SLA compliance, and driver output. I use SQL, Power BI, and Python to turn On-Time Delivery, cost-per-delivery, and rider utilization data into decisions that measurably improve performance.',
+  heroHeadline: 'I look for the|insight hiding in operations data.',
+  heroSubtext: "I'm part of the last-mile delivery and operations team at Al-Dawaa Medical Services Co. across all regions of Saudi Arabia — monitoring fleet performance, SLA compliance, and driver output to keep things on track. I use SQL, Power BI, and Python to turn On-Time Delivery and rider utilization data into decisions that help move those numbers in the right direction, while bringing operational thinking and ideas for last-mile app enhancements to the table.",
   roleTags: [
     'Operations Data Analyst',
     'Process Improvement through Data',
