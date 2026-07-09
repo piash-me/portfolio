@@ -371,7 +371,7 @@ export default function HomePage() {
         <div className="grid sm:grid-cols-2 gap-6">
           {filteredProjects.slice(0, 4).map((p) => {
             const target = projectLinkTarget(p);
-            const linkProps = target.external ? { href: target.href, target: '_blank', rel: 'noopener noreferrer' } : { href: target.href };
+            const linkProps = target.skipsWriteup ? { href: target.href, target: '_blank', rel: target.external ? 'noopener noreferrer' : undefined } : { href: target.href };
             return (
               <Link key={p.slug} {...linkProps} className="rounded-2xl glass p-6 group block">
                 <div className="flex items-center justify-between mb-3">
@@ -386,7 +386,7 @@ export default function HomePage() {
                   <ExternalLink size={14} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </h3>
                 <p className="text-neutral-300 text-sm leading-relaxed">{p.summary}</p>
-                {target.external && <p className="mono-font text-[10px] text-violet mt-3">Opens the live tool →</p>}
+                {target.skipsWriteup && <p className="mono-font text-[10px] text-violet mt-3">Opens the live tool →</p>}
               </Link>
             );
           })}

@@ -151,16 +151,21 @@ export async function getProjects(): Promise<Project[]> {
 // Tool-type projects skip the write-up page entirely and open the working
 // tool directly — better UX for something someone wants to actually *use*,
 // not read about first. Non-tool projects still go to the full write-up page.
-export function projectLinkTarget(p: Project): { href: string; external: boolean } {
+export function projectLinkTarget(p: Project): { href: string; external: boolean; skipsWriteup: boolean } {
   if (p.toolType === 'Embedded App' && (p.toolFileUrl || p.embedUrl)) {
-    return { href: p.toolFileUrl || p.embedUrl!, external: true };
+    // Routes through /run/[slug] on your own domain so the address bar always shows
+    // thepiash.com, even though the actual file might be hosted on Sanity's CDN,
+    // Streamlit, etc. underneath.
+    return { href: `/run/${p.slug}`, external: false, skipsWriteup: true };
   }
   if (p.toolType === 'External Link' && p.embedUrl) {
-    return { href: p.embedUrl, external: true };
+    // Colab (and similar) actively block iframe embedding, so this one has to be
+    // a real external link — there's no way to wrap it under your own domain.
+    return { href: p.embedUrl, external: true, skipsWriteup: true };
   }
   if (p.toolType === 'API-backed Tool' && p.liveToolPath) {
-    return { href: p.liveToolPath, external: false };
+    return { href: p.liveToolPath, external: false, skipsWriteup: true };
   }
-  return { href: `/projects/${p.slug}`, external: false };
+  return { href: `/projects/${p.slug}`, external: false, skipsWriteup: false };
 }
 
