@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Geofence Generator | Mohammad Piash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#eef2f7;color:#0f172a;font-size:14px;min-height:100vh}
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#2563eb 100%);
+      padding:44px 24px 40px;color:#fff;text-align:center}
+.hero-inner{max-width:700px;margin:0 auto}
+.hero-icon{font-size:48px;margin-bottom:12px}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+.hero p{font-size:14px;opacity:.85;line-height:1.7;margin-bottom:16px}
+.hero-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+      border-radius:99px;padding:5px 14px;font-size:11px;font-weight:600}
+.page{max-width:900px;margin:0 auto;padding:28px 16px 40px}
+.card{background:#fff;border:1.5px solid #cbd5e1;border-radius:16px;
+      padding:24px 28px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card-title{font-size:15px;font-weight:800;color:#0f172a;
+            display:flex;align-items:center;gap:10px;
+            padding-bottom:14px;margin-bottom:18px;border-bottom:2px solid #e2e8f0}
+.step-num{width:28px;height:28px;background:#2563eb;color:#fff;border-radius:50%;
+          font-size:13px;font-weight:800;display:flex;align-items:center;
+          justify-content:center;flex-shrink:0}
+.alert{border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.8;margin-bottom:14px}
+.alert-blue{background:#eff6ff;border-left:4px solid #2563eb;color:#1e3a8a}
+.alert-amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.alert-green{background:#ecfdf5;border:2px solid #34d399;color:#065f46;font-weight:500}
+.alert-red{background:#fef2f2;border:2px solid #f87171;color:#991b1b;display:none;font-weight:500}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.4px}
+.field label .req{color:#ef4444;margin-left:2px}
+.field .hint{font-size:11px;color:#94a3b8;margin-top:2px}
+input,select{width:100%;font-size:13.5px;font-family:'Inter',sans-serif;color:#0f172a;
+             background:#fff;border:1.5px solid #94a3b8;border-radius:9px;
+             padding:10px 13px;transition:all .15s;outline:none;min-height:40px}
+input:focus,select:focus{border-color:#2563eb;box-shadow:0 0 0 3px #dbeafe}
+input::placeholder{color:#94a3b8}
+select{cursor:pointer}
+.tog-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tog{padding:10px 18px;font-size:13.5px;font-weight:600;font-family:'Inter',sans-serif;
+     border:1.5px solid #94a3b8;border-radius:9px;background:#fff;
+     color:#475569;cursor:pointer;transition:all .15s}
+.tog:hover{background:#f8fafc;border-color:#64748b}
+.tog.on{background:#dbeafe;border-color:#2563eb;color:#1e3a8a;font-weight:800}
+.drop-zone{border:2.5px dashed #94a3b8;border-radius:14px;padding:32px 20px;
+           text-align:center;cursor:pointer;transition:all .2s;background:#f8fafc}
+.drop-zone:hover,.drop-zone.drag{border-color:#2563eb;background:#eff6ff}
+.drop-zone .dz-icon{font-size:44px;margin-bottom:10px}
+.drop-zone .dz-title{font-size:15px;font-weight:700;color:#334155;margin-bottom:4px}
+.drop-zone .dz-hint{font-size:12px;color:#94a3b8}
+.drop-zone .dz-loaded{font-size:13.5px;font-weight:800;color:#065f46;margin-top:10px;
+                       background:#d1fae5;border-radius:8px;padding:8px 16px;display:inline-block}
+.carrier{background:linear-gradient(135deg,#eff6ff,#f8faff);
+         border:2px solid #bfdbfe;border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.carrier-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.carrier-label{font-size:14px;font-weight:800;color:#1e3a8a;display:flex;align-items:center;gap:8px}
+.carrier-tag{font-size:11px;padding:4px 11px;border-radius:99px;font-weight:800}
+.tag-car{background:#dbeafe;color:#1e3a8a}
+.tag-bike{background:#d1fae5;color:#065f46}
+.tag-truck{background:#fef3c7;color:#78350f}
+.carrier-rm{font-size:12.5px;padding:6px 14px;border-radius:8px;border:2px solid #fca5a5;
+            background:#fff;color:#dc2626;cursor:pointer;font-family:'Inter',sans-serif;
+            font-weight:700;transition:all .15s}
+.carrier-rm:hover{background:#fef2f2}
+.eff-pill{font-size:13px;background:#d1fae5;color:#065f46;border-radius:8px;
+          padding:8px 14px;font-weight:800;text-align:center;margin-top:20px}
+.add-btn{width:100%;padding:13px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;
+         border:2.5px dashed #64748b;border-radius:12px;background:transparent;
+         color:#475569;cursor:pointer;display:flex;align-items:center;
+         justify-content:center;gap:8px;transition:all .15s}
+.add-btn:hover{border-color:#2563eb;color:#1e3a8a;background:#eff6ff}
+.fn-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:12px 16px;margin-top:6px}
+.fn-tag{font-size:10.5px;color:#475569;text-transform:uppercase;letter-spacing:.4px;font-weight:800}
+.fn-val{font-family:monospace;font-size:14px;color:#1e3a8a;font-weight:800;
+        word-break:break-all;margin-top:4px}
+.api-links{background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:9px;
+           padding:12px 16px;font-size:12.5px;color:#475569;line-height:2.2;margin-top:10px}
+.api-links a{color:#2563eb;font-weight:700}
+.run-btn{width:100%;padding:16px;font-size:16.5px;font-weight:800;letter-spacing:.2px;
+         background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border:none;
+         border-radius:14px;cursor:pointer;display:flex;align-items:center;
+         justify-content:center;gap:10px;font-family:'Inter',sans-serif;
+         transition:all .2s;box-shadow:0 6px 20px rgba(37,99,235,.35)}
+.run-btn:hover{background:linear-gradient(135deg,#1e40af,#2563eb);transform:translateY(-1px)}
+.run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.prog-wrap{display:none;margin-top:18px}
+.prog-head{display:flex;justify-content:space-between;font-size:13px;
+           color:#334155;font-weight:700;margin-bottom:7px}
+.prog-track{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,#2563eb,#60a5fa);
+          width:0%;transition:width .4s ease;border-radius:99px}
+.log{background:#0f172a;border-radius:12px;padding:16px;margin-top:14px;
+     max-height:200px;overflow-y:auto;font-family:monospace;font-size:12px;
+     color:#cbd5e1;line-height:2}
+.log .ok{color:#4ade80;font-weight:600}
+.log .er{color:#f87171;font-weight:600}
+.out-wrap{display:none;margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;
+      padding:16px;text-align:center}
+.stat-n{font-size:30px;font-weight:800;color:#0f172a}
+.stat-l{font-size:11px;color:#64748b;margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.dl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.dl-btn{padding:11px 20px;font-size:13.5px;font-weight:700;background:#fff;
+        border:2px solid #94a3b8;border-radius:10px;cursor:pointer;
+        display:flex;align-items:center;gap:8px;color:#0f172a;
+        font-family:'Inter',sans-serif;transition:all .15s}
+.dl-btn:hover{background:#ecfdf5;border-color:#34d399;color:#065f46}
+.dl-btn.zip{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.dl-btn.zip:hover{background:#1e40af}
+.reset-btn{padding:11px 20px;font-size:13.5px;font-weight:700;background:#f8fafc;
+           border:2px solid #94a3b8;border-radius:10px;cursor:pointer;
+           font-family:'Inter',sans-serif;transition:all .15s;margin-left:auto;color:#475569}
+.reset-btn:hover{background:#f1f5f9;color:#0f172a}
+.divider{height:2px;background:#e2e8f0;margin:16px 0}
+.footer{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%);
+        border-radius:16px;padding:24px;text-align:center;color:#fff;margin-top:10px}
+.footer-icon{font-size:28px;margin-bottom:8px}
+.footer-name{font-size:16px;font-weight:800;margin-bottom:5px}
+.footer-sub{font-size:12.5px;opacity:.85;line-height:2}
+.footer a{color:#93c5fd;font-weight:800}
+@media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.hero h1{font-size:22px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-icon">📍</div>
+    <h1>Geofence Generator</h1>
+    <p>Upload hub coordinates, configure carriers with distance &amp; buffer rules,<br>
+       get one file per store — download buttons appear when ready.</p>
+    <div class="hero-chips">
+      <span class="chip">🛣 Route Distance</span>
+      <span class="chip">⭕ Linear / Circular</span>
+      <span class="chip">📏 Buffer Distance</span>
+      <span class="chip">🏬 One file per store</span>
+      <span class="chip">⬇ Download Buttons</span>
+      <span class="chip">🔒 100% Local</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<div class="card">
+  <div class="card-title"><span class="step-num">1</span> Upload Hub Coordinates</div>
+  <div class="alert alert-blue">
+    <strong>Required columns:</strong> <code>store_code</code>, <code>latitude</code>, <code>longitude</code>
+    &nbsp;·&nbsp; <strong>Optional:</strong> <code>hub_name</code>, <code>zip_code</code>, <code>country_code</code><br>
+    Store codes are cleaned automatically — no need to worry about numeric codes like
+    <code>1172</code> breaking the fence name.
+  </div>
+  <div class="drop-zone" id="dropZone"
+       onclick="document.getElementById('csvFile').click()"
+       ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+    <div class="dz-icon">📋</div>
+    <div class="dz-title">Drag &amp; drop your CSV file here</div>
+    <div class="dz-hint">or click to browse files</div>
+    <div class="dz-loaded" id="dz-loaded" style="display:none"></div>
+  </div>
+  <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="loadCSV(this.files[0])">
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="step-num">2</span> Fence Configuration</div>
+  <div class="g3" style="margin-bottom:14px">
+    <div class="field">
+      <label>Fence Type <span class="req">*</span></label>
+      <select id="fenceType">
+        <option value="Normal">Normal</option>
+        <option value="Exclusion">Exclusion</option>
+        <option value="Virtual">Virtual</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Country Code</label>
+      <input type="text" id="countryCode" value="SA">
+    </div>
+    <div class="field">
+      <label>Retain Precision</label>
+      <select id="retainPrecision">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="g3" style="margin-bottom:14px">
+    <div class="field">
+      <label>Stop Threshold Parameter</label>
+      <select id="stopThreshold">
+        <option value="">Select Parameter</option>
+        <option value="Weight">Weight</option>
+        <option value="Pallets">Pallets</option>
+        <option value="Tag">Tag</option>
+        <option value="Tag Regex">Tag Regex</option>
+      </select>
+    </div>
+    <div class="field"><label>Min Stops Clustering</label><input type="number" id="minStops" value="0" min="0"></div>
+    <div class="field"><label>Stops Per Hour</label><input type="number" id="stopsPerHour" value="0" min="0"></div>
+  </div>
+  <div class="g2">
+    <div class="field"><label>Labels</label><input type="text" id="labels" placeholder="e.g. ZONE_A, RIYADH_EAST"></div>
+    <div class="field"><label>Priority</label><input type="number" id="priority" value="0" min="0" max="99"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="step-num">3</span> Geometry Type &amp; Routing API</div>
+  <div class="field" style="margin-bottom:14px">
+    <label>Geometry type</label>
+    <div class="tog-wrap" id="geomTog">
+      <button class="tog on" onclick="setGeom(this,'route')">🛣 Route distance polygon (recommended)</button>
+      <button class="tog" onclick="setGeom(this,'linear')">⭕ Linear / Circular (no API key needed)</button>
+    </div>
+    <div class="hint" id="geomHint" style="margin-top:8px">
+      Draws polygon along actual road network — most accurate for delivery zones.
+    </div>
+  </div>
+  <div id="apiBlock">
+    <div class="g2" style="margin-bottom:12px">
+      <div class="field">
+        <label>Routing API provider</label>
+        <select id="apiProvider" onchange="onProviderChange()">
+          <option value="ors">OpenRouteService — free, 2,000 req/day ⭐</option>
+          <option value="here">HERE Maps — free, 250,000 tx/month</option>
+          <option value="tomtom">TomTom — free, 2,500 req/day</option>
+          <option value="mapbox">Mapbox — free, 100,000 req/month</option>
+          <option value="custom">Custom API endpoint</option>
+          <option value="none">None — switch to Linear/Circular</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Polygon smoothing</label>
+        <select id="smoothing">
+          <option value="50">Low — fastest</option>
+          <option value="36" selected>Medium — balanced ✓</option>
+          <option value="18">High — most detailed</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" id="apiKeyField"><label>API Key <span class="req">*</span></label><input type="password" id="apiKey"></div>
+    <div class="field" id="customUrlField" style="display:none;margin-top:10px"><label>Custom API endpoint URL</label><input type="text" id="customUrl"></div>
+    <div class="api-links">
+      🔗 Get free API keys &nbsp;·&nbsp;
+      <a href="https://openrouteservice.org/dev/#/signup" target="_blank">OpenRouteService</a> ·
+      <a href="https://developer.here.com/sign-up" target="_blank">HERE Maps</a> ·
+      <a href="https://developer.tomtom.com/user/register" target="_blank">TomTom</a> ·
+      <a href="https://account.mapbox.com/auth/signup/" target="_blank">Mapbox</a>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="step-num">4</span> Carrier Configurations</div>
+  <div class="alert alert-blue">
+    Every store is checked against every carrier below. Output = one file per store,
+    containing a fence for each qualifying carrier.
+  </div>
+  <div id="carrierList"></div>
+  <button class="add-btn" onclick="addCarrier()">＋ &nbsp;Add another carrier</button>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="step-num">5</span> Output Format</div>
+  <div class="alert alert-blue">
+    Nothing downloads automatically — a ZIP button always appears, and if you have
+    <strong>≤ 5 stores</strong> you'll also get a button for each store's file individually
+    (all download only when you click them).
+  </div>
+  <div class="tog-wrap" id="fmtTog">
+    <button class="tog" onclick="setFmt(this,'kml')">📄 KML only</button>
+    <button class="tog" onclick="setFmt(this,'geojson')">{ } GeoJSON only</button>
+    <button class="tog on" onclick="setFmt(this,'both')">📦 Both KML + GeoJSON</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title"><span class="step-num">6</span> Generate &amp; Download</div>
+  <button class="run-btn" id="runBtn" onclick="startGeneration()">▶ &nbsp; Generate Geofence Files</button>
+  <div class="alert alert-red" id="errBox" style="margin-top:14px"></div>
+  <div class="prog-wrap" id="progWrap">
+    <div class="prog-head"><span id="progLabel">Processing…</span><span id="progPct">0%</span></div>
+    <div class="prog-track"><div class="prog-bar" id="progBar"></div></div>
+    <div class="log" id="logBox"></div>
+  </div>
+  <div class="out-wrap" id="outWrap">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sStores">0</div><div class="stat-l">Stores</div></div>
+      <div class="stat"><div class="stat-n" id="sCars">0</div><div class="stat-l">Carriers</div></div>
+      <div class="stat"><div class="stat-n" id="sOk">0</div><div class="stat-l">Fences</div></div>
+      <div class="stat"><div class="stat-n" id="sFail">0</div><div class="stat-l">Failed</div></div>
+    </div>
+    <div class="dl-row" id="dlRow"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-icon">🛰️ 📍 🌐</div>
+  <div class="footer-name">Created by Mohammad Piash</div>
+  <div class="footer-sub">
+    🌐 <a href="https://thepiash.com" target="_blank">thepiash.com</a>
+    &nbsp;·&nbsp; Geofence Generator v3.0
+    &nbsp;·&nbsp; 🔒 All data processed locally — nothing uploaded
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+let csvData=[], carriers=[], cidx=0, outFmt='both', geomType='route', outputs={};
+
+window.onload=()=>{
+  addCarrier('','',null,null,'driving-car');
+};
+
+function cleanCode(v){
+  let s=String(v||'').trim();
+  if(/\.0$/.test(s)){const f=parseFloat(s);if(f===Math.trunc(f))s=String(Math.trunc(f));}
+  return s.toUpperCase().replace(/\s+/g,'_');
+}
+
+function setGeom(btn,val){
+  document.querySelectorAll('#geomTog .tog').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); geomType=val;
+  document.getElementById('apiBlock').style.display=val==='linear'?'none':'';
+  document.getElementById('geomHint').textContent=val==='route'
+    ?'Draws polygon along actual road network — most accurate for delivery zones.'
+    :'Simple circle using straight-line radius. No API key needed.';
+}
+function setFmt(btn,val){
+  document.querySelectorAll('#fmtTog .tog').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); outFmt=val;
+}
+function onProviderChange(){
+  const p=document.getElementById('apiProvider').value;
+  document.getElementById('apiKeyField').style.display=p==='none'?'none':'';
+  document.getElementById('customUrlField').style.display=p==='custom'?'':'none';
+}
+
+function onDragOver(e){e.preventDefault();document.getElementById('dropZone').classList.add('drag')}
+function onDragLeave(){document.getElementById('dropZone').classList.remove('drag')}
+function onDrop(e){e.preventDefault();document.getElementById('dropZone').classList.remove('drag');
+  if(e.dataTransfer.files[0])loadCSV(e.dataTransfer.files[0])}
+
+function loadCSV(f){
+  if(!f)return;
+  const reader=new FileReader();
+  reader.onload=evt=>{
+    const lines=evt.target.result.trim().split('\n');
+    const hdrs=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/\s+/g,'_').replace(/"/g,''));
+    csvData=lines.slice(1).filter(l=>l.trim()).map(l=>{
+      const v=l.split(',').map(x=>x.trim().replace(/^"|"$/g,''));
+      const row={};hdrs.forEach((h,i)=>row[h]=v[i]||'');
+      if(!row.latitude&&row.lat)row.latitude=row.lat;
+      if(!row.longitude&&(row.lon||row.lng))row.longitude=row.lon||row.lng;
+      if(!row.store_code&&row.storecode)row.store_code=row.storecode;
+      if(row.store_code)row.store_code=cleanCode(row.store_code);
+      return row;
+    });
+    const el=document.getElementById('dz-loaded');
+    el.style.display='inline-block';
+    el.textContent=`✓ Loaded ${csvData.length} stores from "${f.name}"`;
+    updatePreviews();
+    logMsg('info',`Loaded ${csvData.length} stores from ${f.name}`);
+  };
+  reader.readAsText(f);
+}
+
+function addCarrier(code='',name='',dist=null,buf=null,profile='driving-car'){
+  carriers.push({id:cidx++,code,name,dist,buf,profile});
+  renderCarriers(); updatePreviews();
+}
+function removeCarrier(id){carriers=carriers.filter(c=>c.id!==id);renderCarriers();updatePreviews();}
+
+function renderCarriers(){
+  const el=document.getElementById('carrierList'); el.innerHTML='';
+  carriers.forEach((c,i)=>{
+    const hasNums = c.dist!=null && c.buf!=null && !isNaN(c.dist) && !isNaN(c.buf);
+    const eff = hasNums ? Math.max(0,c.dist-c.buf).toFixed(2) : '—';
+    const tag=c.profile.includes('cycling')?'tag-bike':c.profile.includes('hgv')?'tag-truck':'tag-car';
+    const vl=c.profile.includes('cycling')?'🚴 Bike':c.profile.includes('hgv')?'🚛 Truck':'🚗 Car/Van';
+    el.innerHTML+=`
+    <div class="carrier" id="c_${c.id}">
+      <div class="carrier-head">
+        <div class="carrier-label">Carrier ${i+1} <span class="carrier-tag ${tag}">${vl}</span></div>
+        ${carriers.length>1?`<button class="carrier-rm" onclick="removeCarrier(${c.id})">✕ Remove</button>`:''}
+      </div>
+      <div class="g2" style="margin-bottom:12px">
+        <div class="field">
+          <label>Carrier code <span class="req">*</span></label>
+          <input type="text" value="${c.code}" placeholder="e.g. ALSHROUQ" style="font-family:monospace;font-weight:800;text-transform:uppercase"
+            oninput="const v=this.value.toUpperCase().replace(/\\s/g,'_'); this.value=v; carriers.find(x=>x.id==${c.id}).code=v;">
+        </div>
+        <div class="field">
+          <label>Display name</label>
+          <input type="text" value="${c.name}" placeholder="e.g. Al Shrouq Logistics"
+            oninput="carriers.find(x=>x.id==${c.id}).name=this.value">
+        </div>
+      </div>
+      <div class="g4">
+        <div class="field"><label>Distance (km) <span class="req">*</span></label>
+          <input type="number" value="${c.dist==null?'':c.dist}" placeholder="e.g. 15" min="0.5" max="500" step="0.5"
+            oninput="carriers.find(x=>x.id==${c.id}).dist=this.value===''?null:parseFloat(this.value);updEff(${c.id})"></div>
+        <div class="field"><label>Buffer (km)</label>
+          <input type="number" value="${c.buf==null?'':c.buf}" placeholder="e.g. 3" min="0" max="200" step="0.5"
+            oninput="carriers.find(x=>x.id==${c.id}).buf=this.value===''?null:parseFloat(this.value);updEff(${c.id})"></div>
+        <div class="field"><label>Vehicle profile</label>
+          <select onchange="carriers.find(x=>x.id==${c.id}).profile=this.value;renderCarriers()">
+            <option value="driving-car" ${c.profile==='driving-car'?'selected':''}>Car / Van</option>
+            <option value="cycling-regular" ${c.profile==='cycling-regular'?'selected':''}>Bike</option>
+            <option value="driving-hgv" ${c.profile==='driving-hgv'?'selected':''}>Truck / HGV</option>
+          </select></div>
+        <div class="field"><label>Effective range</label><div class="eff-pill" id="eff_${c.id}">${hasNums?'✓ '+eff+' km':'—'}</div></div>
+      </div>
+    </div>`;
+  });
+}
+function updEff(id){
+  const c=carriers.find(x=>x.id===id); if(!c)return;
+  const el=document.getElementById('eff_'+id); if(!el)return;
+  const hasNums = c.dist!=null && c.buf!=null && !isNaN(c.dist) && !isNaN(c.buf);
+  el.textContent = hasNums ? `✓ ${Math.max(0,c.dist-c.buf).toFixed(2)} km` : '—';
+}
+function updatePreviews(){
+  const s=cleanCode(csvData[0]?.store_code||'P721');
+  const el=document.getElementById('globalFnPreview');
+  if(el) el.textContent=`${s}_GEOFENCES.kml (contains all its carrier fences)`;
+}
+
+function circleCoords(lat,lng,km,pts=80){
+  const R=6371,res=[];
+  for(let i=0;i<=pts;i++){const a=(i/pts)*2*Math.PI,dl=(km/R)*(180/Math.PI),dg=dl/Math.cos(lat*Math.PI/180);
+    res.push([lng+dg*Math.sin(a),lat+dl*Math.cos(a)]);}
+  return res;
+}
+async function callORS(lat,lng,km,prof,smooth,key){
+  const r=await fetch(`https://api.openrouteservice.org/v2/isochrones/${prof}`,{method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':key},
+    body:JSON.stringify({locations:[[lng,lat]],range:[km*1000],range_type:'distance',smoothing:smooth,area_units:'km'})});
+  if(!r.ok)throw new Error(`ORS ${r.status}`);
+  return (await r.json()).features[0].geometry.coordinates[0];
+}
+async function callHERE(lat,lng,km,key){
+  const r=await fetch(`https://isoline.router.hereapi.com/v8/isolines?transportMode=car&origin=${lat},${lng}&range[type]=distance&range[values]=${Math.round(km*1000)}&apiKey=${key}`);
+  if(!r.ok)throw new Error(`HERE ${r.status}`);
+  const ring=(await r.json()).isolines[0].polygons[0].outer;
+  const c=[];for(let i=0;i<ring.length;i+=2)c.push([ring[i+1],ring[i]]);return c;
+}
+async function callTomTom(lat,lng,km,key){
+  const r=await fetch(`https://api.tomtom.com/routing/1/calculateReachableRange/${lat},${lng}/json?key=${key}&distanceBudgetInMeters=${Math.round(km*1000)}&routeType=fastest&traffic=false`,{method:'POST'});
+  if(!r.ok)throw new Error(`TomTom ${r.status}`);
+  return (await r.json()).reachableRange.boundary.map(p=>[p.longitude,p.latitude]);
+}
+async function callMapbox(lat,lng,km,key){
+  const mins=Math.max(1,Math.round((km/40)*60));
+  const r=await fetch(`https://api.mapbox.com/isochrone/v1/mapbox/driving/${lng},${lat}?contours_minutes=${mins}&polygons=true&access_token=${key}`);
+  if(!r.ok)throw new Error(`Mapbox ${r.status}`);
+  return (await r.json()).features[0].geometry.coordinates[0];
+}
+async function getCoords(lat,lng,km,profile){
+  const prov=document.getElementById('apiProvider').value;
+  const key=document.getElementById('apiKey').value.trim();
+  const smooth=parseInt(document.getElementById('smoothing').value);
+  if(geomType==='linear'||prov==='none')return circleCoords(lat,lng,km);
+  if(prov==='ors')return callORS(lat,lng,km,profile,smooth,key);
+  if(prov==='here')return callHERE(lat,lng,km,key);
+  if(prov==='tomtom')return callTomTom(lat,lng,km,key);
+  if(prov==='mapbox')return callMapbox(lat,lng,km,key);
+  return circleCoords(lat,lng,km);
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function buildMark(name,coords,meta){
+  const ring=coords.map(c=>`${c[0].toFixed(6)},${c[1].toFixed(6)},0`).join(' ');
+  const ed=Object.entries(meta).map(([k,v])=>`      <Data name="${esc(k)}"><value>${esc(v)}</value></Data>`).join('\n');
+  return `  <Placemark>\n    <name>${esc(name)}</name>\n    <styleUrl>#f</styleUrl>\n    <ExtendedData>\n${ed}\n    </ExtendedData>\n    <Polygon><outerBoundaryIs><LinearRing><coordinates>${ring}</coordinates></LinearRing></outerBoundaryIs></Polygon>\n  </Placemark>`;
+}
+function buildStoreKML(store,marks){
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n  <name>${esc(store)} — Geofences</name>\n  <Style id="f"><LineStyle><color>FF0000FF</color><width>2</width></LineStyle><PolyStyle><color>401400FF</color><fill>1</fill><outline>1</outline></PolyStyle></Style>\n${marks.join('\n')}\n</Document>\n</kml>`;
+}
+
+function setProgress(pct,label){
+  document.getElementById('progBar').style.width=pct+'%';
+  document.getElementById('progPct').textContent=Math.round(pct)+'%';
+  if(label)document.getElementById('progLabel').textContent=label;
+}
+function logMsg(type,msg){
+  const box=document.getElementById('logBox');
+  const d=document.createElement('div');
+  d.className=type==='ok'?'ok':type==='er'?'er':'';
+  d.textContent=(type==='ok'?'✓ ':type==='er'?'✗ ':'→ ')+msg;
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+}
+
+async function startGeneration(){
+  const errBox=document.getElementById('errBox'); errBox.style.display='none';
+  const errs=[];
+  if(!csvData.length)errs.push('Upload a hub coordinates CSV file first (Step 1).');
+  const prov=document.getElementById('apiProvider').value;
+  if(geomType==='route'&&prov!=='none'&&!document.getElementById('apiKey').value.trim())
+    errs.push('API key is required for route distance polygon (Step 3).');
+  const active=carriers.filter(c=>c.code.trim());
+  if(!active.length)errs.push('Add at least one carrier with a code (Step 4).');
+  active.forEach(c=>{
+    if(c.dist==null||isNaN(c.dist))errs.push(`Enter a distance (km) for carrier "${c.code}".`);
+    else if(c.buf!=null && !isNaN(c.buf) && c.buf>=c.dist)errs.push(`Buffer (${c.buf}km) ≥ distance (${c.dist}km) for "${c.code}".`);
+  });
+  if(errs.length){errBox.style.display='block';errBox.innerHTML='❌ '+errs.join('<br>❌ ');return;}
+
+  document.getElementById('runBtn').disabled=true;
+  document.getElementById('progWrap').style.display='block';
+  document.getElementById('outWrap').style.display='none';
+  document.getElementById('logBox').innerHTML='';
+  outputs={};
+
+  const meta_cfg={
+    fenceType:document.getElementById('fenceType').value,
+    countryCode:document.getElementById('countryCode').value,
+    retainPrecision:document.getElementById('retainPrecision').value,
+    stopThreshold:document.getElementById('stopThreshold').value,
+    minStops:document.getElementById('minStops').value,
+    stopsPerHour:document.getElementById('stopsPerHour').value,
+    labels:document.getElementById('labels').value,
+    priority:document.getElementById('priority').value,
+  };
+
+  const total=active.length*csvData.length;
+  let done=0,gOk=0,gFail=0;
+  const zip = new JSZip();
+  const storeFiles=[]; // {store, kml, geojson}
+
+  for(const hub of csvData){
+    const store=cleanCode(hub.store_code||hub.storecode||'HUB');
+    const hname=hub.hub_name||hub.name||store;
+    const lat=parseFloat(hub.latitude||hub.lat);
+    const lng=parseFloat(hub.longitude||hub.lon||hub.lng);
+    const marks=[], gjf=[];
+
+    logMsg('info',`Store: ${store}`);
+
+    for(const c of active){
+      const eff=+(Math.max(0,c.dist-c.buf).toFixed(4));
+      const fname=`${store}_${c.code}_FENCE`;
+      done++; setProgress((done/total)*90,`${store}: ${c.code}`);
+
+      if(isNaN(lat)||isNaN(lng)){logMsg('er',`${fname} — invalid coords`);gFail++;continue;}
+
+      try{
+        const coords=await getCoords(lat,lng,eff,c.profile);
+        if(geomType==='route')await new Promise(r=>setTimeout(r,750));
+        const meta={
+          'Fence Name':fname,'Fence Type':meta_cfg.fenceType,
+          'Country Code':meta_cfg.countryCode,'Retain Precision':meta_cfg.retainPrecision,
+          'Stop Threshold Parameter':meta_cfg.stopThreshold,
+          'Min Stops Clustering':meta_cfg.minStops,'Stops Per Hour':meta_cfg.stopsPerHour,
+          'Labels':meta_cfg.labels,'Priority':meta_cfg.priority,
+          'Store Code':store,'Hub Name':hname,'Carrier Code':c.code,'Carrier Name':c.name||c.code,
+          'Distance KM':c.dist,'Buffer KM':c.buf,'Effective KM':eff,'Start Location':`${lat},${lng}`
+        };
+        marks.push(buildMark(fname,coords,meta));
+        gjf.push({type:'Feature',properties:{...meta},geometry:{type:'Polygon',coordinates:[coords.map(p=>[p[0],p[1]])]}});
+        logMsg('ok',`  ${fname} — OK`); gOk++;
+      }catch(err){logMsg('er',`  ${fname} — ${err.message}`);gFail++;}
+    }
+
+    const kmlStr=buildStoreKML(store,marks);
+    const gjStr=JSON.stringify({type:'FeatureCollection',
+      metadata:{store_code:store,fence_count:gjf.length,generated:new Date().toISOString()},
+      features:gjf},null,2);
+
+    storeFiles.push({store,kml:kmlStr,geojson:gjStr});
+  }
+
+  setProgress(100,'✓ Building files…');
+
+  // Build zip
+  storeFiles.forEach(sf=>{
+    if(outFmt==='kml'||outFmt==='both') zip.file(`${sf.store}_GEOFENCES.kml`, sf.kml);
+    if(outFmt==='geojson'||outFmt==='both') zip.file(`${sf.store}_GEOFENCES.geojson`, sf.geojson);
+  });
+
+  const zipBlob = await zip.generateAsync({type:'blob'});
+  const nStores = storeFiles.length;
+
+  document.getElementById('sStores').textContent=nStores;
+  document.getElementById('sCars').textContent=active.length;
+  document.getElementById('sOk').textContent=gOk;
+  document.getElementById('sFail').textContent=gFail;
+
+  const dlRow=document.getElementById('dlRow'); dlRow.innerHTML='';
+
+  // No auto-download at all — every file (ZIP and individual) only downloads
+  // when you click its button.
+  const zipBtn=document.createElement('button');
+  zipBtn.className='dl-btn zip';
+  zipBtn.innerHTML='⬇ ALL_GEOFENCES.zip';
+  zipBtn.onclick=()=>dlBlob(zipBlob,'ALL_GEOFENCES.zip');
+  dlRow.appendChild(zipBtn);
+
+  if(nStores<=5){
+    storeFiles.forEach(sf=>{
+      if(outFmt==='kml'||outFmt==='both'){
+        const b=document.createElement('button'); b.className='dl-btn';
+        b.innerHTML=`⬇ ${sf.store}.kml`;
+        b.onclick=()=>dlFile(sf.kml,`${sf.store}_GEOFENCES.kml`,'application/vnd.google-earth.kml+xml');
+        dlRow.appendChild(b);
+      }
+      if(outFmt==='geojson'||outFmt==='both'){
+        const b=document.createElement('button'); b.className='dl-btn';
+        b.innerHTML=`⬇ ${sf.store}.geojson`;
+        b.onclick=()=>dlFile(sf.geojson,`${sf.store}_GEOFENCES.geojson`,'application/json');
+        dlRow.appendChild(b);
+      }
+    });
+  }
+
+  const rb=document.createElement('button');rb.className='reset-btn';
+  rb.textContent='↺ New run';rb.onclick=resetAll;dlRow.appendChild(rb);
+
+  document.getElementById('outWrap').style.display='block';
+  document.getElementById('runBtn').disabled=false;
+  logMsg('ok', nStores<=5
+    ? `Files ready. Click the ZIP button, or any individual store button, to download.`
+    : `${nStores} stores > 5 — click the ZIP button to download (individual files are inside it).`);
+}
+
+function dlFile(content,name,mime){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime}));
+  a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function dlBlob(blob,name){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+function resetAll(){
+  csvData=[];outputs={};
+  document.getElementById('dz-loaded').style.display='none';
+  document.getElementById('progWrap').style.display='none';
+  document.getElementById('outWrap').style.display='none';
+  document.getElementById('logBox').innerHTML='';
+  document.getElementById('runBtn').disabled=false;
+  document.getElementById('csvFile').value='';
+  document.getElementById('errBox').style.display='none';
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
