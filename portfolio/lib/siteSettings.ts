@@ -127,7 +127,23 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     const live = await sanityClient.fetch(SITE_SETTINGS_QUERY);
     if (!live) return fallbackSiteSettings;
     // Merge so a partially-filled Sanity document doesn't blank out fields you haven't set yet.
-    return { ...fallbackSiteSettings, ...live };
+    // Important: a plain {...fallback, ...live} spread isn't enough — if an array field exists
+    // in Sanity but has zero items (e.g. Social Links with nothing added yet), Sanity returns an
+    // empty array, which would silently overwrite the fallback defaults with nothing. Each array
+    // field is checked individually here so that only genuinely-filled-in content overrides.
+    const nonEmpty = <T,>(val: T[] | undefined, fallback: T[]): T[] =>
+      Array.isArray(val) && val.length > 0 ? val : fallback;
+    return {
+      ...fallbackSiteSettings,
+      ...live,
+      roleTags: nonEmpty(live.roleTags, fallbackSiteSettings.roleTags),
+      timeline: nonEmpty(live.timeline, fallbackSiteSettings.timeline),
+      stats: nonEmpty(live.stats, fallbackSiteSettings.stats),
+      socialLinks: nonEmpty(live.socialLinks, fallbackSiteSettings.socialLinks),
+      experience: nonEmpty(live.experience, fallbackSiteSettings.experience),
+      education: nonEmpty(live.education, fallbackSiteSettings.education),
+      certifications: nonEmpty(live.certifications, fallbackSiteSettings.certifications),
+    };
   } catch {
     return fallbackSiteSettings;
   }

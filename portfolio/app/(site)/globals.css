@@ -6,21 +6,22 @@
 
 /* Light theme (new default) — warm off-white, not stark white, so it still pairs well with bronze/violet */
 :root {
-  --bg: #F7F5F2;
+  --bg: #F4EEE1;
   --bg-elevated: #FFFFFF;
-  --fg: #17151C;
-  --fg-muted: #55525C;
-  --fg-faint: #78757F;
-  --glass-bg: rgba(23, 21, 28, 0.035);
-  --glass-bg-hover: rgba(23, 21, 28, 0.06);
-  --hairline: rgba(23, 21, 28, 0.12);
-  --hairline-strong: rgba(23, 21, 28, 0.22);
-  --bronze: #B5651D;
-  --violet: #6D4FE0;
-  --cyan: #0F8FA3;
+  --fg: #1A1510;
+  --fg-muted: #57503F;
+  --fg-faint: #857C68;
+  --glass-bg: rgba(166, 128, 46, 0.06);
+  --glass-bg-hover: rgba(166, 128, 46, 0.09);
+  --hairline: rgba(26, 21, 16, 0.14);
+  --hairline-strong: rgba(26, 21, 16, 0.32);
+  --bronze: #8B5E22;
+  --violet: #5B3FC4;
+  --cyan: #0D7A8A;
+  --gold: #A6802E;
   --scrollbar: #DAD6CE;
-  --btn-primary-bg: #17151C;
-  --btn-primary-fg: #FFFFFF;
+  --btn-primary-bg: #1A1510;
+  --btn-primary-fg: #F4EEE1;
 }
 
 /* Dark theme — the original design, unchanged in every value */
@@ -37,6 +38,7 @@
   --bronze: #C77D3D;
   --violet: #8B7CF6;
   --cyan: #5EC8D8;
+  --gold: #D4AF6A;
   --scrollbar: #1c1d21;
   --btn-primary-bg: #FFFFFF;
   --btn-primary-fg: #0A0A0A;
@@ -80,13 +82,21 @@ body {
 .float-slow { animation: floatSlow 6s ease-in-out infinite; }
 
 .grad-text {
-  background: linear-gradient(120deg, var(--bronze), var(--violet), var(--bronze));
-  background-size: 200% auto;
+  background: linear-gradient(100deg, var(--bronze) 0%, var(--gold) 35%, var(--violet) 65%, var(--bronze) 100%);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: gradientShift 7s linear infinite;
+  animation: gradientShift 9s ease-in-out infinite;
+}
+[data-theme='light'] .grad-text {
+  background-image: linear-gradient(100deg, #6E4A1A 0%, var(--gold) 30%, #C9A24B 50%, var(--gold) 70%, #6E4A1A 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .display-font { font-family: 'Space Grotesk', 'Inter', sans-serif; }
@@ -127,6 +137,13 @@ body {
 .dp-float { animation: dpFloat 4s ease-in-out infinite; }
 
 .skill-bar-fill { transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.hero-glow { opacity: 1; }
+[data-theme='light'] .hero-glow { opacity: 0; }
+.photo-glow { opacity: 0.6; }
+[data-theme='light'] .photo-glow { opacity: 0; }
+.photo-ring { opacity: 0; }
+[data-theme='light'] .photo-ring { opacity: 0.6; }
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }

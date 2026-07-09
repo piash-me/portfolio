@@ -245,8 +245,8 @@ export default function HomePage() {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-25">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-bronze/25 rounded-full blur-[110px] float-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-violet/25 rounded-full blur-[110px] float-slow" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-bronze/25 rounded-full blur-[110px] float-slow hero-glow" />
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-violet/25 rounded-full blur-[110px] float-slow hero-glow" style={{ animationDelay: '2s' }} />
         </div>
 
         <div className="relative z-10 grid md:grid-cols-[1.3fr_0.7fr] items-center gap-10 max-w-5xl fade-up text-center md:text-left">
@@ -276,7 +276,8 @@ export default function HomePage() {
 
           <div className="flex justify-center md:justify-end">
             <div className="relative w-56 h-56 sm:w-64 sm:h-64">
-              <div className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl" style={{ background: 'linear-gradient(135deg, #C77D3D, #8B7CF6)' }} />
+              <div className="absolute -inset-3 rounded-[2rem] blur-2xl photo-glow" style={{ background: 'linear-gradient(135deg, #C77D3D, #8B7CF6)' }} />
+              <div className="absolute -inset-1.5 rounded-[2.25rem] photo-ring" style={{ border: '1.5px solid var(--gold)' }} />
               <div className="relative w-full h-full rounded-[2rem] glass overflow-hidden flex items-center justify-center">
                 <Image src={settings.photoUrl || '/photo.jpg'} alt={settings.name} fill className="object-cover" priority />
               </div>
