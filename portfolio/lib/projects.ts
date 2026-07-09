@@ -147,3 +147,20 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
+// Decides where clicking a project card should actually go.
+// Tool-type projects skip the write-up page entirely and open the working
+// tool directly — better UX for something someone wants to actually *use*,
+// not read about first. Non-tool projects still go to the full write-up page.
+export function projectLinkTarget(p: Project): { href: string; external: boolean } {
+  if (p.toolType === 'Embedded App' && (p.toolFileUrl || p.embedUrl)) {
+    return { href: p.toolFileUrl || p.embedUrl!, external: true };
+  }
+  if (p.toolType === 'External Link' && p.embedUrl) {
+    return { href: p.embedUrl, external: true };
+  }
+  if (p.toolType === 'API-backed Tool' && p.liveToolPath) {
+    return { href: p.liveToolPath, external: false };
+  }
+  return { href: `/projects/${p.slug}`, external: false };
+}
+

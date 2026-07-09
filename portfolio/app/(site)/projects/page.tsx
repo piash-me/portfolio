@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink, Search } from 'lucide-react';
-import { getProjects, projects as fallbackProjects, type Project } from '@/lib/projects';
+import { getProjects, projectLinkTarget, projects as fallbackProjects, type Project } from '@/lib/projects';
 
 const PAGE_SIZE = 6;
 
@@ -56,22 +56,27 @@ export default function ProjectsPage() {
         <p className="text-neutral-500 text-xs mb-6">{filtered.length} project{filtered.length !== 1 ? 's' : ''}</p>
 
         <div className="grid sm:grid-cols-2 gap-6">
-          {visible.map((p) => (
-            <Link key={p.slug} href={`/projects/${p.slug}`} className="rounded-2xl glass p-6 group block">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
-                  {p.featured && <span className="text-[10px] mono-font text-bronze">★ Featured</span>}
+          {visible.map((p) => {
+            const target = projectLinkTarget(p);
+            const linkProps = target.external ? { href: target.href, target: '_blank', rel: 'noopener noreferrer' } : { href: target.href };
+            return (
+              <Link key={p.slug} {...linkProps} className="rounded-2xl glass p-6 group block">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
+                    {p.featured && <span className="text-[10px] mono-font text-bronze">★ Featured</span>}
+                  </div>
+                  <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
                 </div>
-                <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
-              </div>
-              <h3 className="text-white font-medium text-lg mb-2 flex items-center gap-2">
-                {p.title}
-                <ExternalLink size={14} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="text-neutral-300 text-sm leading-relaxed">{p.summary}</p>
-            </Link>
-          ))}
+                <h3 className="text-white font-medium text-lg mb-2 flex items-center gap-2">
+                  {p.title}
+                  <ExternalLink size={14} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-neutral-300 text-sm leading-relaxed">{p.summary}</p>
+                {target.external && <p className="mono-font text-[10px] text-violet mt-3">Opens the live tool →</p>}
+              </Link>
+            );
+          })}
         </div>
 
         {filtered.length === 0 && <p className="text-neutral-400 text-sm text-center py-16">No projects match that search yet.</p>}
