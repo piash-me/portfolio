@@ -22,6 +22,7 @@
   --scrollbar: #DAD6CE;
   --btn-primary-bg: #1A1510;
   --btn-primary-fg: #F4EEE1;
+  --nav-bg: rgba(244, 238, 225, 0.85);
 }
 
 /* Dark theme — the original design, unchanged in every value */
@@ -42,6 +43,7 @@
   --scrollbar: #1c1d21;
   --btn-primary-bg: #FFFFFF;
   --btn-primary-fg: #0A0A0A;
+  --nav-bg: rgba(8, 9, 11, 0.85);
 }
 
 html {

@@ -99,7 +99,7 @@ function SignalPath() {
       </svg>
       <div className="flex justify-between text-[10px] font-mono tracking-wider text-fg-muted mt-1 px-1 select-none">
         <span>ROUTES · SLA · FLEET</span>
-        <span className="text-violet/70">SIGNAL · INSIGHT · SCALE</span>
+        <span style={{ color: 'color-mix(in srgb, var(--violet) 70%, transparent)' }}>SIGNAL · INSIGHT · SCALE</span>
       </div>
     </div>
   );
@@ -245,8 +245,8 @@ export default function HomePage() {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-25">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-bronze/25 rounded-full blur-[110px] float-slow hero-glow" />
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-violet/25 rounded-full blur-[110px] float-slow hero-glow" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[110px] float-slow hero-glow" style={{ background: 'color-mix(in srgb, var(--bronze) 25%, transparent)' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full blur-[110px] float-slow hero-glow" style={{ background: 'color-mix(in srgb, var(--violet) 25%, transparent)', animationDelay: '2s' }} />
         </div>
 
         <div className="relative z-10 grid md:grid-cols-[1.3fr_0.7fr] items-center gap-10 max-w-5xl fade-up text-center md:text-left">

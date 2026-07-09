@@ -37,7 +37,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-bronze to-violet z-50 transition-all duration-150"
         style={{ width: `${progress}%` }}
       />
-      <nav className="fixed top-0 w-full z-40 backdrop-blur-md bg-obsidian/80 border-b border-hairline">
+      <nav className="fixed top-0 w-full z-40 backdrop-blur-md border-b border-hairline" style={{ background: 'var(--nav-bg)' }}>
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/" className="mono-font text-sm tracking-widest text-fg" onClick={closeMobile}>
             MOHAMMAD&nbsp;PIASH<span className="text-violet">.</span>
@@ -75,7 +75,7 @@ export default function Navbar() {
 
         {/* Mobile dropdown — hidden by default, appears on click */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-hairline bg-obsidian/95 backdrop-blur-md">
+          <div className="md:hidden border-t border-hairline backdrop-blur-md" style={{ background: 'var(--nav-bg)' }}>
             <div className="flex flex-col px-6 py-4 gap-1">
               {LINKS.map((l) => (
                 <Link
