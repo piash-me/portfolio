@@ -18,6 +18,7 @@ export default {
 
     // About / Timeline
     { name: 'aboutHeadline', title: 'About Section Headline', type: 'string' },
+    { name: 'learningNote', title: 'About Section Closing Line', type: 'string', description: 'A short personal note shown at the end of the career timeline, e.g. "Learning is my first choice."' },
     {
       name: 'timeline',
       title: 'Career Timeline',

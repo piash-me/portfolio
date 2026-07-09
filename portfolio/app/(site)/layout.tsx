@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import DataPulse from '@/components/DataPulse';
+import { getSiteSettings } from '@/lib/siteSettings';
+
+export const revalidate = 60; // keeps the nav name in sync with Sanity within about a minute of any change
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://thepiash.com'),
@@ -37,7 +40,8 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://thepiash.com' },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings();
   return (
     <html lang="en">
       <head>
@@ -51,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="grain" />
         <DataPulse side="left" />
         <DataPulse side="right" />
-        <Navbar />
+        <Navbar name={settings.name} />
         {children}
       </body>
     </html>

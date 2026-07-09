@@ -19,6 +19,7 @@
   --violet: #5B3FC4;
   --cyan: #0D7A8A;
   --gold: #A6802E;
+  --pink: #A83E6E;
   --scrollbar: #DAD6CE;
   --btn-primary-bg: #1A1510;
   --btn-primary-fg: #F4EEE1;
@@ -40,6 +41,7 @@
   --violet: #8B7CF6;
   --cyan: #5EC8D8;
   --gold: #D4AF6A;
+  --pink: #D89EC7;
   --scrollbar: #1c1d21;
   --btn-primary-bg: #FFFFFF;
   --btn-primary-fg: #0A0A0A;
@@ -146,6 +148,8 @@ body {
 [data-theme='light'] .photo-glow { opacity: 0; }
 .photo-ring { opacity: 0; }
 [data-theme='light'] .photo-ring { opacity: 0.6; }
+.photo-ring-dark { opacity: 0.7; border-image: linear-gradient(135deg, var(--bronze), var(--violet)) 1; }
+[data-theme='light'] .photo-ring-dark { opacity: 0; }
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }

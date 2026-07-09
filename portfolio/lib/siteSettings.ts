@@ -40,6 +40,7 @@ export type SiteSettings = {
   roleTags: string[];
   badgeText: string;
   aboutHeadline: string;
+  learningNote: string;
   timeline: TimelineEntry[];
   stats: StatEntry[];
   email: string;
@@ -69,7 +70,8 @@ export const fallbackSiteSettings: SiteSettings = {
     'Data-Driven Operations Leader',
   ],
   badgeText: 'OPEN TO DATA ANALYST ROLES',
-  aboutHeadline: 'Same responsibilities. Sharper tools.',
+  aboutHeadline: 'Every role built the next.',
+  learningNote: 'Learning is my first choice — there is always another skill worth picking up.',
   timeline: [
     { year: '2019', title: 'Delivery Driver — Mrsool & HungerStation', company: 'Buraydah, Al Qasim', description: 'Frontline last-mile delivery — the starting point for everything that followed.' },
     { year: '2022', title: 'Delivery Driver', company: 'Al-Dawaa Medical Services Co. — Jazan', description: 'Moved into e-commerce delivery operations.' },

@@ -5,10 +5,10 @@ import { Download, Eye, Briefcase, GraduationCap, Award, Truck, BarChart3, Bot, 
 import { getSiteSettings, fallbackSiteSettings, type SiteSettings } from '@/lib/siteSettings';
 
 const skillPreview = [
-  { label: 'Operations', icon: Truck, color: '#C77D3D' },
-  { label: 'Analytics & BI', icon: BarChart3, color: '#8B7CF6' },
-  { label: 'Automation & AI', icon: Bot, color: '#5EC8D8' },
-  { label: 'Leadership', icon: Users, color: '#D89EC7' },
+  { label: 'Operations', icon: Truck, color: 'var(--bronze)' },
+  { label: 'Analytics & BI', icon: BarChart3, color: 'var(--violet)' },
+  { label: 'Automation & AI', icon: Bot, color: 'var(--cyan)' },
+  { label: 'Leadership', icon: Users, color: 'var(--pink)' },
 ];
 
 export default function ResumePage() {
@@ -96,7 +96,7 @@ export default function ResumePage() {
 
         <section>
           <div className="flex items-center gap-2 mb-8">
-            <Award size={16} className="text-cyan-300" />
+            <Award size={16} className="text-cyan" />
             <h2 className="display-font text-xl text-fg">Certifications</h2>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -109,7 +109,7 @@ export default function ResumePage() {
 
       {previewOpen && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6" onClick={() => setPreviewOpen(false)}>
-          <div className="bg-[#0F1013] rounded-2xl max-w-lg w-full p-8 relative border border-hairline" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-panel rounded-2xl max-w-lg w-full p-8 relative border border-hairline" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setPreviewOpen(false)} className="absolute top-4 right-4 text-fg-muted hover:text-fg">
               <X size={18} />
             </button>

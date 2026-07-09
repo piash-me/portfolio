@@ -278,6 +278,7 @@ export default function HomePage() {
             <div className="relative w-56 h-56 sm:w-64 sm:h-64">
               <div className="absolute -inset-3 rounded-[2rem] blur-2xl photo-glow" style={{ background: 'linear-gradient(135deg, #C77D3D, #8B7CF6)' }} />
               <div className="absolute -inset-1.5 rounded-[2.25rem] photo-ring" style={{ border: '1.5px solid var(--gold)' }} />
+              <div className="absolute -inset-1.5 rounded-[2.25rem] photo-ring-dark" style={{ border: '1.5px solid transparent' }} />
               <div className="relative w-full h-full rounded-[2rem] glass overflow-hidden flex items-center justify-center">
                 <Image src={settings.photoUrl || '/photo.jpg'} alt={settings.name} fill className="object-cover" priority />
               </div>
@@ -325,6 +326,11 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+        {settings.learningNote && (
+          <p className="text-fg-muted text-sm italic mt-10 pt-8 border-t border-hairline max-w-lg">
+            {settings.learningNote}
+          </p>
+        )}
       </section>
 
       {/* SKILLS */}

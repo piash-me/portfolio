@@ -14,7 +14,7 @@ const LINKS = [
   { href: '/#contact', label: 'Contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ name = 'Mohammad Piash' }: { name?: string }) {
   const [progress, setProgress] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -40,7 +40,7 @@ export default function Navbar() {
       <nav className="fixed top-0 w-full z-40 backdrop-blur-md border-b border-hairline" style={{ background: 'var(--nav-bg)' }}>
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/" className="mono-font text-sm tracking-widest text-fg" onClick={closeMobile}>
-            MOHAMMAD&nbsp;PIASH<span className="text-violet">.</span>
+            {name.toUpperCase()}<span className="text-violet">.</span>
           </Link>
 
           {/* Desktop nav — unchanged */}

@@ -69,9 +69,8 @@ Two supported patterns (see `app/tools/page.tsx` for a working example of both):
 - **API-backed Tool** — for lightweight tools, add a route under `app/api/tools/your-tool/route.ts`
   (see `app/api/tools/sla-risk/route.ts` for the pattern) and a page under `app/tools/your-tool/page.tsx`.
 
-## Still to build (see project chat for full status)
+## Current honest status
 
-- Single project case-study page (`app/projects/[slug]/page.tsx`)
-- Single blog post page with PortableText rendering, code highlighting, table of contents (`app/blog/[slug]/page.tsx`)
-- Contact form wired to an email service (Resend recommended)
-- Google Analytics / Search Console / Microsoft Clarity script tags in `app/layout.tsx`
+**Built and working**: Homepage, Resume, Blog listing + detail pages (with PortableText rendering, code highlighting, table of contents), Projects listing + detail pages, Tools template page, embedded admin panel at `/studio`, light/dark theme toggle, contact via direct email link.
+
+**Still not built**: Google Analytics / Search Console / Microsoft Clarity tags in `app/(site)/layout.tsx`, and formal Lighthouse/browser-compatibility test reports (these need to be run against the live deployed site directly, not generated in advance).

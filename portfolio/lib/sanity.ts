@@ -19,7 +19,7 @@ export const POSTS_QUERY = `*[_type == "post" && status == "Published"] | order(
 
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   name, currentTitle, company, heroEyebrow, heroHeadline, heroSubtext, roleTags, badgeText,
-  "photoUrl": photo.asset->url, "cvUrl": cvFile.asset->url, aboutHeadline, timeline, stats,
+  "photoUrl": photo.asset->url, "cvUrl": cvFile.asset->url, aboutHeadline, learningNote, timeline, stats,
   email, location, socialLinks, experience, education, certifications,
   seoTitle, seoDescription, "ogImageUrl": ogImage.asset->url
 }`;
