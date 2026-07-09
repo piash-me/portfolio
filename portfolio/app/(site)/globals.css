@@ -4,13 +4,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme (new default) — warm off-white, not stark white, so it still pairs well with bronze/violet */
+:root {
+  --bg: #F7F5F2;
+  --bg-elevated: #FFFFFF;
+  --fg: #17151C;
+  --fg-muted: #55525C;
+  --fg-faint: #78757F;
+  --glass-bg: rgba(23, 21, 28, 0.035);
+  --glass-bg-hover: rgba(23, 21, 28, 0.06);
+  --hairline: rgba(23, 21, 28, 0.12);
+  --hairline-strong: rgba(23, 21, 28, 0.22);
+  --bronze: #B5651D;
+  --violet: #6D4FE0;
+  --cyan: #0F8FA3;
+  --scrollbar: #DAD6CE;
+  --btn-primary-bg: #17151C;
+  --btn-primary-fg: #FFFFFF;
+}
+
+/* Dark theme — the original design, unchanged in every value */
+[data-theme='dark'] {
+  --bg: #08090B;
+  --bg-elevated: #101114;
+  --fg: #F5F5F7;
+  --fg-muted: #B8BCC4;
+  --fg-faint: #9A9EA8;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-hover: rgba(255, 255, 255, 0.045);
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.2);
+  --bronze: #C77D3D;
+  --violet: #8B7CF6;
+  --cyan: #5EC8D8;
+  --scrollbar: #1c1d21;
+  --btn-primary-bg: #FFFFFF;
+  --btn-primary-fg: #0A0A0A;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #08090b;
-  color: #e5e5e5;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 @keyframes fadeUp {
@@ -41,10 +80,11 @@ body {
 .float-slow { animation: floatSlow 6s ease-in-out infinite; }
 
 .grad-text {
-  background: linear-gradient(120deg, #c77d3d, #8b7cf6, #c77d3d);
+  background: linear-gradient(120deg, var(--bronze), var(--violet), var(--bronze));
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
   animation: gradientShift 7s linear infinite;
 }
@@ -53,15 +93,15 @@ body {
 .mono-font { font-family: 'JetBrains Mono', monospace; }
 
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--hairline);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .glass:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.045);
+  border-color: var(--hairline-strong);
+  background: var(--glass-bg-hover);
 }
 
 .grain {
@@ -89,7 +129,7 @@ body {
 .skill-bar-fill { transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-thumb { background: #1c1d21; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   .fade-up, .signal-node, .signal-line, .float-slow, .grad-text, .chart3d-spin, .role-orbit-spin,

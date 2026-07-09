@@ -31,20 +31,20 @@ export default function BlogPage() {
     <main className="min-h-screen pt-24">
       <div className="max-w-4xl mx-auto px-6 py-16">
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">WRITING</p>
-        <h1 className="display-font text-3xl sm:text-4xl text-white mb-3">Notes from the intersection of ops and data.</h1>
-        <p className="text-neutral-400 max-w-xl mb-10">Short, practical write-ups on operations, automation, and the BI tools I use day to day.</p>
+        <h1 className="display-font text-3xl sm:text-4xl text-fg mb-3">Notes from the intersection of ops and data.</h1>
+        <p className="text-fg-muted max-w-xl mb-10">Short, practical write-ups on operations, automation, and the BI tools I use day to day.</p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <div className="flex items-center gap-2 glass rounded-full px-4 py-2.5 flex-1">
-            <Search size={15} className="text-neutral-400" />
+            <Search size={15} className="text-fg-muted" />
             <input value={query} onChange={(e) => { setQuery(e.target.value); setVisibleCount(PAGE_SIZE); }} placeholder="Search articles"
-              className="bg-transparent outline-none text-sm text-neutral-200 placeholder-neutral-500 w-full" />
+              className="bg-transparent outline-none text-sm text-fg placeholder-neutral-500 w-full" />
           </div>
           <div className="flex gap-2 flex-wrap">
             {categories.map((c) => (
               <button key={c} onClick={() => { setActive(c); setVisibleCount(PAGE_SIZE); }}
                 className={`px-4 py-1.5 rounded-full text-xs border transition-colors ${
-                  active === c ? 'bg-white text-black border-white' : 'border-white/15 text-neutral-400 hover:border-white/30'
+                  active === c ? 'bg-btn-primary text-btn-primary-fg border-btn-primary' : 'border-hairline text-fg-muted hover:border-hairline-strong'
                 }`}>{c}</button>
             ))}
           </div>
@@ -54,24 +54,24 @@ export default function BlogPage() {
           {visible.map((p) => (
             <Link key={p.slug} href={`/blog/${p.slug}`} className="block glass rounded-2xl p-6 group">
               <div className="flex items-center gap-3 mb-3">
-                <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-400">{p.category}</span>
-                {p.readTime && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={11} /> {p.readTime}</span>}
-                {p.date && <span className="text-[11px] text-neutral-400">{p.date}</span>}
+                <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-hairline text-fg-muted">{p.category}</span>
+                {p.readTime && <span className="text-[11px] text-fg-muted flex items-center gap-1"><Clock size={11} /> {p.readTime}</span>}
+                {p.date && <span className="text-[11px] text-fg-muted">{p.date}</span>}
               </div>
-              <h2 className="text-white font-medium text-lg mb-2 flex items-center gap-2 group-hover:text-violet transition-colors">
+              <h2 className="text-fg font-medium text-lg mb-2 flex items-center gap-2 group-hover:text-violet transition-colors">
                 {p.title}
-                <ArrowUpRight size={15} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowUpRight size={15} className="text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
               </h2>
-              <p className="text-neutral-400 text-sm leading-relaxed">{p.excerpt}</p>
+              <p className="text-fg-muted text-sm leading-relaxed">{p.excerpt}</p>
             </Link>
           ))}
-          {filtered.length === 0 && <p className="text-neutral-400 text-sm text-center py-16">No articles match that search yet.</p>}
+          {filtered.length === 0 && <p className="text-fg-muted text-sm text-center py-16">No articles match that search yet.</p>}
         </div>
 
         {visibleCount < filtered.length && (
           <div className="text-center mt-10">
             <button onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              className="px-6 py-2.5 rounded-full border border-white/15 text-sm text-neutral-300 hover:border-violet/50 hover:text-violet transition-colors">
+              className="px-6 py-2.5 rounded-full border border-hairline text-sm text-fg-muted hover:border-violet/50 hover:text-violet transition-colors">
               Load More ({filtered.length - visibleCount} remaining)
             </button>
           </div>

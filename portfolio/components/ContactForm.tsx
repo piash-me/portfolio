@@ -41,33 +41,33 @@ export default function ContactForm() {
   };
 
   const inputClass = (hasError?: string) =>
-    `w-full px-3.5 py-2.5 rounded-lg text-sm text-white bg-white/[0.04] border outline-none font-body ${
-      hasError ? 'border-red-400' : 'border-white/10 focus:border-violet/50'
+    `w-full px-3.5 py-2.5 rounded-lg text-sm text-fg bg-glass border outline-none font-body ${
+      hasError ? 'border-red-400' : 'border-hairline focus:border-violet/50'
     }`;
 
   return (
     <form onSubmit={handleSubmit} className="text-left max-w-md mx-auto mb-10 glass rounded-2xl p-7">
       <div className="mb-3.5">
-        <label className="block text-xs text-neutral-400 mb-1.5">Name</label>
+        <label className="block text-xs text-fg-muted mb-1.5">Name</label>
         <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
           placeholder="Your name" className={inputClass(errors.name)} />
         {errors.name && <p className="text-red-400 text-[11px] mt-1">{errors.name}</p>}
       </div>
       <div className="mb-3.5">
-        <label className="block text-xs text-neutral-400 mb-1.5">Email</label>
+        <label className="block text-xs text-fg-muted mb-1.5">Email</label>
         <input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
           placeholder="you@example.com" className={inputClass(errors.email)} />
         {errors.email && <p className="text-red-400 text-[11px] mt-1">{errors.email}</p>}
       </div>
       <div className="mb-4.5">
-        <label className="block text-xs text-neutral-400 mb-1.5">Message</label>
+        <label className="block text-xs text-fg-muted mb-1.5">Message</label>
         <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
           placeholder="What would you like to talk about?" rows={4} className={`${inputClass(errors.message)} resize-y`} />
         {errors.message && <p className="text-red-400 text-[11px] mt-1">{errors.message}</p>}
       </div>
       <button type="submit" disabled={status === 'sending'}
         className={`flex items-center justify-center gap-2 w-full py-3 rounded-full font-medium text-sm transition-colors ${
-          status === 'sent' ? 'bg-emerald-400 text-black' : 'bg-white text-black hover:bg-neutral-200'
+          status === 'sent' ? 'bg-emerald-400 text-btn-primary-fg' : 'bg-btn-primary text-btn-primary-fg hover:opacity-90'
         } disabled:opacity-70`}>
         {status === 'sent' ? <><Check size={15} /> Message Sent</> : status === 'sending' ? 'Sending…' : <><Send size={15} /> Send Message</>}
       </button>

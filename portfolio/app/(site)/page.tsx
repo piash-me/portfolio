@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProjects, projectLinkTarget, projects as fallbackProjects, type Project } from '@/lib/projects';
+import { getProjects, projects as fallbackProjects, type Project } from '@/lib/projects';
 import { getSiteSettings, fallbackSiteSettings, type SiteSettings } from '@/lib/siteSettings';
 import { getSkills, fallbackSkills, type SkillCategory } from '@/lib/skills';
 import {
@@ -97,7 +97,7 @@ function SignalPath() {
           );
         })}
       </svg>
-      <div className="flex justify-between text-[10px] font-mono tracking-wider text-neutral-400 mt-1 px-1 select-none">
+      <div className="flex justify-between text-[10px] font-mono tracking-wider text-fg-muted mt-1 px-1 select-none">
         <span>ROUTES · SLA · FLEET</span>
         <span className="text-violet/70">SIGNAL · INSIGHT · SCALE</span>
       </div>
@@ -164,9 +164,9 @@ function ProfessionFlip() {
         >
           <div className="flex items-center justify-center gap-2.5">
             <Icon size={18} color={p.color} />
-            <h3 className="text-white font-semibold text-sm m-0">{p.title}</h3>
+            <h3 className="text-fg font-semibold text-sm m-0">{p.title}</h3>
           </div>
-          <p className="text-neutral-400 text-xs leading-relaxed mt-2 m-0">{p.desc}</p>
+          <p className="text-fg-muted text-xs leading-relaxed mt-2 m-0">{p.desc}</p>
         </div>
       </div>
       <div className="flex gap-1.5 mt-3.5">
@@ -247,23 +247,23 @@ export default function HomePage() {
         <div className="relative z-10 grid md:grid-cols-[1.3fr_0.7fr] items-center gap-10 max-w-5xl fade-up text-center md:text-left">
           <div>
             <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-4 select-none">{settings.heroEyebrow}</p>
-            <h1 className="display-font text-4xl sm:text-6xl font-semibold leading-tight text-white">
+            <h1 className="display-font text-4xl sm:text-6xl font-semibold leading-tight text-fg">
               {headlinePlain}{headlineGrad && <span className="grad-text">{headlineGrad}</span>}
             </h1>
-            <p className="mt-5 text-lg text-neutral-300 h-7">
+            <p className="mt-5 text-lg text-fg-muted h-7">
               {typedRole}<span className="inline-block w-[2px] h-5 bg-violet ml-1 align-middle animate-pulse" />
             </p>
-            <p className="mt-4 text-neutral-300 max-w-xl leading-relaxed mx-auto md:mx-0">
+            <p className="mt-4 text-fg-muted max-w-xl leading-relaxed mx-auto md:mx-0">
               {settings.heroSubtext}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
-              <a href={settings.cvUrl || '/cv.pdf'} download className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors">
+              <a href={settings.cvUrl || '/cv.pdf'} download className="flex items-center gap-2 px-6 py-3 rounded-full bg-btn-primary text-btn-primary-fg font-medium text-sm hover:opacity-90 transition-colors">
                 <Download size={16} /> Download CV
               </a>
-              <a href="#projects" className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 text-sm hover:border-violet/50 hover:text-violet transition-colors">
+              <a href="#projects" className="flex items-center gap-2 px-6 py-3 rounded-full border border-hairline text-sm hover:border-violet/50 hover:text-violet transition-colors">
                 View Projects <ArrowRight size={16} />
               </a>
-              <a href="#contact" className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 text-sm hover:border-bronze/50 hover:text-[#E0985A] transition-colors">
+              <a href="#contact" className="flex items-center gap-2 px-6 py-3 rounded-full border border-hairline text-sm hover:border-bronze/50 hover:text-[#E0985A] transition-colors">
                 <Mail size={16} /> Contact Me
               </a>
             </div>
@@ -275,7 +275,7 @@ export default function HomePage() {
               <div className="relative w-full h-full rounded-[2rem] glass overflow-hidden flex items-center justify-center">
                 <Image src={settings.photoUrl || '/photo.jpg'} alt={settings.name} fill className="object-cover" priority />
               </div>
-              <div className="absolute -bottom-3 -right-3 px-3.5 py-1.5 rounded-full bg-white text-black mono-font text-[10px] font-semibold shadow-lg">
+              <div className="absolute -bottom-3 -right-3 px-3.5 py-1.5 rounded-full bg-btn-primary text-btn-primary-fg mono-font text-[10px] font-semibold shadow-lg">
                 {settings.badgeText}
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function HomePage() {
           <SignalPath />
         </div>
         <div className="mt-8 relative z-10 text-center">
-          <p className="mono-font text-[10px] tracking-[0.25em] text-neutral-500 mb-3 select-none">WHAT THIS LOOKS LIKE DAY TO DAY</p>
+          <p className="mono-font text-[10px] tracking-[0.25em] text-fg-faint mb-3 select-none">WHAT THIS LOOKS LIKE DAY TO DAY</p>
           <ProfessionFlip />
         </div>
       </section>
@@ -297,8 +297,8 @@ export default function HomePage() {
           const [ref, value] = useCountUp(s.value);
           return (
             <div key={s.label} ref={ref} className="text-center glass rounded-2xl py-8">
-              <p className="mono-font text-3xl sm:text-4xl font-semibold text-white">{value}{s.suffix}</p>
-              <p className="text-xs text-neutral-400 mt-2 tracking-wide">{s.label}</p>
+              <p className="mono-font text-3xl sm:text-4xl font-semibold text-fg">{value}{s.suffix}</p>
+              <p className="text-xs text-fg-muted mt-2 tracking-wide">{s.label}</p>
             </div>
           );
         })}
@@ -307,15 +307,15 @@ export default function HomePage() {
       {/* ABOUT */}
       <section id="about" className="max-w-4xl mx-auto px-6 py-24">
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">ABOUT</p>
-        <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">{settings.aboutHeadline}</h2>
-        <div className="relative pl-8 border-l border-white/10 space-y-10">
+        <h2 className="display-font text-3xl sm:text-4xl text-fg mb-12">{settings.aboutHeadline}</h2>
+        <div className="relative pl-8 border-l border-hairline space-y-10">
           {(settings.timeline || []).map((t, i) => (
             <div key={i} className="relative">
               <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet" />
               <p className="mono-font text-xs text-violet mb-1">{t.year}</p>
-              <h3 className="text-white font-medium text-lg">{t.title}</h3>
+              <h3 className="text-fg font-medium text-lg">{t.title}</h3>
               <p className="text-bronze text-xs font-medium mt-0.5">{t.company}</p>
-              <p className="text-neutral-300 text-sm mt-1.5 max-w-lg">{t.description}</p>
+              <p className="text-fg-muted text-sm mt-1.5 max-w-lg">{t.description}</p>
             </div>
           ))}
         </div>
@@ -324,7 +324,7 @@ export default function HomePage() {
       {/* SKILLS */}
       <section id="skills" className="max-w-5xl mx-auto px-6 py-24">
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">CAPABILITIES</p>
-        <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">Operational depth, analytical range.</h2>
+        <h2 className="display-font text-3xl sm:text-4xl text-fg mb-12">Operational depth, analytical range.</h2>
         <div className="grid sm:grid-cols-2 gap-6">
           {skills.map((group) => {
             const Icon = iconForSkillLabel(group.label);
@@ -334,15 +334,15 @@ export default function HomePage() {
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${group.colorHex}22` }}>
                     <Icon size={18} color={group.colorHex} />
                   </div>
-                  <h3 className="text-white font-medium">{group.label}</h3>
+                  <h3 className="text-fg font-medium">{group.label}</h3>
                 </div>
                 <div className="space-y-3">
                   {(group.skills || []).map((s) => (
                     <div key={s.name}>
-                      <div className="flex justify-between text-xs text-neutral-300 mb-1">
+                      <div className="flex justify-between text-xs text-fg-muted mb-1">
                         <span>{s.name}</span><span className="mono-font">{s.level}%</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-glass overflow-hidden">
                         <div className="h-full rounded-full skill-bar-fill" style={{ width: `${s.level}%`, backgroundColor: group.colorHex }} />
                       </div>
                     </div>
@@ -358,42 +358,37 @@ export default function HomePage() {
       <section id="projects" className="max-w-5xl mx-auto px-6 py-24">
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">PROJECTS</p>
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-          <h2 className="display-font text-3xl sm:text-4xl text-white">Work that moved real numbers.</h2>
+          <h2 className="display-font text-3xl sm:text-4xl text-fg">Work that moved real numbers.</h2>
           <div className="flex gap-2 flex-wrap">
             {categories.map((c) => (
               <button key={c} onClick={() => setActiveCategory(c)}
                 className={`px-4 py-1.5 rounded-full text-xs border transition-colors ${
-                  activeCategory === c ? 'bg-white text-black border-white' : 'border-white/15 text-neutral-300 hover:border-white/30'
+                  activeCategory === c ? 'bg-btn-primary text-btn-primary-fg border-btn-primary' : 'border-hairline text-fg-muted hover:border-hairline-strong'
                 }`}>{c}</button>
             ))}
           </div>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
-          {filteredProjects.slice(0, 4).map((p) => {
-            const target = projectLinkTarget(p);
-            const linkProps = target.skipsWriteup ? { href: target.href, target: '_blank', rel: target.external ? 'noopener noreferrer' : undefined } : { href: target.href };
-            return (
-              <Link key={p.slug} {...linkProps} className="rounded-2xl glass p-6 group block">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{p.tag}</span>
-                    {p.featured && <span className="text-[10px] mono-font text-bronze">★ Featured</span>}
-                  </div>
-                  <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
+          {filteredProjects.slice(0, 4).map((p) => (
+            <Link key={p.slug} href={`/projects/${p.slug}`} className="rounded-2xl glass p-6 group block">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-hairline text-fg-muted">{p.tag}</span>
+                  {p.featured && <span className="text-[10px] mono-font text-bronze">★ Featured</span>}
                 </div>
-                <h3 className="text-white font-medium text-lg mb-2 flex items-center gap-2">
-                  {p.title}
-                  <ExternalLink size={14} className="text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <p className="text-neutral-300 text-sm leading-relaxed">{p.summary}</p>
-                {target.skipsWriteup && <p className="mono-font text-[10px] text-violet mt-3">Opens the live tool →</p>}
-              </Link>
-            );
-          })}
+                <span className={`text-[10px] mono-font ${p.status === 'Live' ? 'text-emerald-400' : 'text-amber-400'}`}>{p.status}</span>
+              </div>
+              <h3 className="text-fg font-medium text-lg mb-2 flex items-center gap-2">
+                {p.title}
+                <ExternalLink size={14} className="text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+              </h3>
+              <p className="text-fg-muted text-sm leading-relaxed">{p.summary}</p>
+            </Link>
+          ))}
         </div>
         {filteredProjects.length > 4 && (
           <div className="text-center mt-10">
-            <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/15 text-sm text-neutral-300 hover:border-violet/50 hover:text-violet transition-colors">
+            <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-hairline text-sm text-fg-muted hover:border-violet/50 hover:text-violet transition-colors">
               View All {filteredProjects.length} Projects <ArrowRight size={15} />
             </Link>
           </div>
@@ -401,27 +396,27 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT */}
-      <footer id="contact" className="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
+      <footer id="contact" className="max-w-4xl mx-auto px-6 py-24 text-center border-t border-hairline">
         <Database className="mx-auto mb-4 text-violet" size={28} />
-        <h2 className="display-font text-2xl sm:text-3xl text-white mb-3">Let&apos;s talk about improving operations with data.</h2>
-        <p className="text-neutral-400 text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
+        <h2 className="display-font text-2xl sm:text-3xl text-fg mb-3">Let&apos;s talk about improving operations with data.</h2>
+        <p className="text-fg-muted text-sm max-w-md mx-auto mb-10">Open to Operations, Data Analyst, and Business Intelligence opportunities.</p>
 
-        <a href={`mailto:${settings.email}`} className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors mb-6">
+        <a href={`mailto:${settings.email}`} className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-btn-primary text-btn-primary-fg font-medium text-sm hover:opacity-90 transition-colors mb-6">
           <Mail size={16} /> Email Me Directly
         </a>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300 hover:text-white transition-colors">
+          <button onClick={copyEmail} className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-fg-muted hover:text-fg transition-colors">
             {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />} {copied ? 'Copied' : settings.email}
           </button>
-          <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300"><MapPin size={15} /> {settings.location}</span>
+          <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-fg-muted"><MapPin size={15} /> {settings.location}</span>
         </div>
-        <div className="flex flex-wrap justify-center gap-5 text-neutral-400">
+        <div className="flex flex-wrap justify-center gap-5 text-fg-muted">
           {(settings.socialLinks || []).map((link) => {
             const Icon = iconForPlatform(link.platform);
             return (
               <a key={link.platform + link.url} href={link.url} target="_blank" rel="noopener noreferrer" title={link.label || link.platform}>
-                <Icon size={18} className="hover:text-white transition-colors" />
+                <Icon size={18} className="hover:text-fg transition-colors" />
               </a>
             );
           })}

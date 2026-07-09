@@ -32,15 +32,30 @@ function isPortableText(body: any[]): boolean {
 const portableTextComponents = {
   types: {
     code: ({ value }: any) => (
-      <div className="rounded-xl overflow-hidden border border-white/10">
-        <div className="bg-white/5 px-4 py-2 mono-font text-[11px] text-neutral-400">{value?.language || 'code'}</div>
-        <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-neutral-200 whitespace-pre">{value?.code}</code></pre>
+      <div className="rounded-xl overflow-hidden border border-hairline">
+        <div className="bg-glass px-4 py-2 mono-font text-[11px] text-fg-muted">{value?.language || 'code'}</div>
+        <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-fg whitespace-pre">{value?.code}</code></pre>
       </div>
     ),
   },
   block: {
-    h2: ({ children }: any) => <h2 className="display-font text-xl text-white pt-6">{children}</h2>,
-    normal: ({ children }: any) => <p className="text-neutral-300 leading-relaxed">{children}</p>,
+    h2: ({ children }: any) => <h2 className="display-font text-xl text-fg pt-6">{children}</h2>,
+    normal: ({ children }: any) => <p className="text-fg-muted leading-relaxed">{children}</p>,
+  },
+  marks: {
+    link: ({ children, value }: any) => {
+      const href = value?.href || '#';
+      const isExternal = /^https?:\/\//.test(href);
+      return (
+        <a
+          href={href}
+          className="text-violet underline underline-offset-2 hover:text-fg transition-colors"
+          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {children}
+        </a>
+      );
+    },
   },
 };
 
@@ -56,26 +71,26 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   return (
     <main className="min-h-screen pt-24">
       <article className="max-w-3xl mx-auto px-6 py-16">
-        <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors mb-8">
+        <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-fg-muted hover:text-fg transition-colors mb-8">
           <ArrowLeft size={15} /> Back to Blog
         </Link>
 
         <div className="flex items-center gap-3 mb-4">
-          <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-white/10 text-neutral-300">{post.category}</span>
-          {post.readTime && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>}
-          {post.date && <span className="text-[11px] text-neutral-400 flex items-center gap-1"><Calendar size={12} /> {post.date}</span>}
+          <span className="mono-font text-[10px] px-2 py-1 rounded-full border border-hairline text-fg-muted">{post.category}</span>
+          {post.readTime && <span className="text-[11px] text-fg-muted flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>}
+          {post.date && <span className="text-[11px] text-fg-muted flex items-center gap-1"><Calendar size={12} /> {post.date}</span>}
         </div>
 
-        <h1 className="display-font text-3xl sm:text-4xl text-white mb-4">{post.title}</h1>
-        <p className="text-neutral-300 text-lg leading-relaxed mb-10">{post.excerpt}</p>
+        <h1 className="display-font text-3xl sm:text-4xl text-fg mb-4">{post.title}</h1>
+        <p className="text-fg-muted text-lg leading-relaxed mb-10">{post.excerpt}</p>
 
         {headings.length > 0 && (
           <nav className="glass rounded-xl p-5 mb-12">
-            <p className="mono-font text-[10px] tracking-[0.2em] text-neutral-400 mb-3">TABLE OF CONTENTS</p>
+            <p className="mono-font text-[10px] tracking-[0.2em] text-fg-muted mb-3">TABLE OF CONTENTS</p>
             <ul className="space-y-1.5">
               {headings.map((h) => (
                 <li key={h.id}>
-                  <a href={`#${h.id}`} className="text-sm text-neutral-300 hover:text-violet transition-colors">{h.text}</a>
+                  <a href={`#${h.id}`} className="text-sm text-fg-muted hover:text-violet transition-colors">{h.text}</a>
                 </li>
               ))}
             </ul>
@@ -88,16 +103,16 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           ) : (
             ((post.body || []) as any[]).map((block, i) => {
               if (block.type === 'paragraph') {
-                return <p key={i} className="text-neutral-300 leading-relaxed">{block.text}</p>;
+                return <p key={i} className="text-fg-muted leading-relaxed">{block.text}</p>;
               }
               if (block.type === 'heading') {
-                return <h2 key={i} id={block.id} className="display-font text-xl text-white pt-6">{block.text}</h2>;
+                return <h2 key={i} id={block.id} className="display-font text-xl text-fg pt-6">{block.text}</h2>;
               }
               if (block.type === 'code') {
                 return (
-                  <div key={i} className="rounded-xl overflow-hidden border border-white/10">
-                    <div className="bg-white/5 px-4 py-2 mono-font text-[11px] text-neutral-400">{block.language}</div>
-                    <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-neutral-200 whitespace-pre">{block.code}</code></pre>
+                  <div key={i} className="rounded-xl overflow-hidden border border-hairline">
+                    <div className="bg-glass px-4 py-2 mono-font text-[11px] text-fg-muted">{block.language}</div>
+                    <pre className="bg-black/40 p-4 overflow-x-auto"><code className="mono-font text-sm text-fg whitespace-pre">{block.code}</code></pre>
                   </div>
                 );
               }
@@ -107,13 +122,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
 
         {related.length > 0 && (
-          <div className="mt-20 pt-10 border-t border-white/10">
-            <p className="mono-font text-xs tracking-[0.3em] text-neutral-400 mb-6">RELATED POSTS</p>
+          <div className="mt-20 pt-10 border-t border-hairline">
+            <p className="mono-font text-xs tracking-[0.3em] text-fg-muted mb-6">RELATED POSTS</p>
             <div className="grid sm:grid-cols-2 gap-4">
               {related.map((p) => (
-                <Link key={p.slug} href={`/blog/${p.slug}`} className="glass rounded-xl p-5 hover:border-white/20 transition-colors">
-                  <h3 className="text-white font-medium text-sm mb-1.5">{p.title}</h3>
-                  <p className="text-neutral-400 text-xs leading-relaxed">{p.excerpt}</p>
+                <Link key={p.slug} href={`/blog/${p.slug}`} className="glass rounded-xl p-5 hover:border-hairline transition-colors">
+                  <h3 className="text-fg font-medium text-sm mb-1.5">{p.title}</h3>
+                  <p className="text-fg-muted text-xs leading-relaxed">{p.excerpt}</p>
                 </Link>
               ))}
             </div>

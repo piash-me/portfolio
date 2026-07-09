@@ -4,11 +4,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        obsidian: '#08090B',
-        panel: '#101114',
-        bronze: '#C77D3D',
-        violet: '#8B7CF6',
-        cyan: '#5EC8D8',
+        obsidian: 'var(--bg)',
+        panel: 'var(--bg-elevated)',
+        bronze: 'var(--bronze)',
+        violet: 'var(--violet)',
+        cyan: 'var(--cyan)',
+        fg: 'var(--fg)',
+        'fg-muted': 'var(--fg-muted)',
+        'fg-faint': 'var(--fg-faint)',
+        hairline: 'var(--hairline)',
+        'hairline-strong': 'var(--hairline-strong)',
+        'btn-primary': 'var(--btn-primary-bg)',
+        'btn-primary-fg': 'var(--btn-primary-fg)',
+        glass: 'var(--glass-bg)',
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
