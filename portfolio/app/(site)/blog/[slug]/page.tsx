@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // Real Sanity posts use Portable Text blocks ({ _type: 'block' | 'code' | 'image' })
 // instead. This checks which shape we actually got and renders accordingly.
 function isPortableText(body: any[]): boolean {
-  return body.length > 0 && '_type' in body[0];
+  return Array.isArray(body) && body.length > 0 && '_type' in body[0];
 }
 
 const portableTextComponents = {
@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   if (!post) notFound();
 
   const usingPortableText = isPortableText(post.body);
-  const headings = usingPortableText ? [] : (post.body as any[]).filter((b) => b.type === 'heading') as { type: 'heading'; text: string; id: string }[];
+  const headings = usingPortableText ? [] : ((post.body || []) as any[]).filter((b) => b.type === 'heading') as { type: 'heading'; text: string; id: string }[];
   const related = posts.filter((p) => p.category === post.category && p.slug !== post.slug).slice(0, 2);
 
   return (
@@ -84,9 +84,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         <div className="space-y-5">
           {usingPortableText ? (
-            <PortableText value={post.body} components={portableTextComponents} />
+            <PortableText value={post.body || []} components={portableTextComponents} />
           ) : (
-            (post.body as any[]).map((block, i) => {
+            ((post.body || []) as any[]).map((block, i) => {
               if (block.type === 'paragraph') {
                 return <p key={i} className="text-neutral-300 leading-relaxed">{block.text}</p>;
               }

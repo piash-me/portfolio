@@ -58,7 +58,7 @@ export default function ResumePage() {
             <h2 className="display-font text-xl text-white">Experience</h2>
           </div>
           <div className="space-y-8 border-l border-white/10 pl-6">
-            {settings.experience.map((e) => (
+            {(settings.experience || []).map((e) => (
               <div key={e.role} className="relative">
                 <div className="absolute -left-[29px] top-1 w-2.5 h-2.5 rounded-full bg-obsidian border-2 border-bronze" />
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -84,7 +84,7 @@ export default function ResumePage() {
             <h2 className="display-font text-xl text-white">Learning &amp; Education</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
-            {settings.education.map((ed) => (
+            {(settings.education || []).map((ed) => (
               <div key={ed.title} className="glass rounded-xl p-5">
                 <p className="text-white text-sm font-medium">{ed.title}</p>
                 <p className="text-neutral-400 text-xs mt-1">{ed.org}</p>
@@ -100,7 +100,7 @@ export default function ResumePage() {
             <h2 className="display-font text-xl text-white">Certifications</h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            {settings.certifications.map((c) => (
+            {(settings.certifications || []).map((c) => (
               <span key={c} className="px-4 py-2 rounded-full glass text-xs text-neutral-300">{c}</span>
             ))}
           </div>

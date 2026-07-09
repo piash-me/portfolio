@@ -293,7 +293,7 @@ export default function HomePage() {
 
       {/* STATS */}
       <section className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {settings.stats.map((s) => {
+        {(settings.stats || []).map((s) => {
           const [ref, value] = useCountUp(s.value);
           return (
             <div key={s.label} ref={ref} className="text-center glass rounded-2xl py-8">
@@ -309,7 +309,7 @@ export default function HomePage() {
         <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-3">ABOUT</p>
         <h2 className="display-font text-3xl sm:text-4xl text-white mb-12">{settings.aboutHeadline}</h2>
         <div className="relative pl-8 border-l border-white/10 space-y-10">
-          {settings.timeline.map((t, i) => (
+          {(settings.timeline || []).map((t, i) => (
             <div key={i} className="relative">
               <div className="absolute -left-[41px] top-1 w-3.5 h-3.5 rounded-full bg-obsidian border-2 border-violet" />
               <p className="mono-font text-xs text-violet mb-1">{t.year}</p>
@@ -337,7 +337,7 @@ export default function HomePage() {
                   <h3 className="text-white font-medium">{group.label}</h3>
                 </div>
                 <div className="space-y-3">
-                  {group.skills.map((s) => (
+                  {(group.skills || []).map((s) => (
                     <div key={s.name}>
                       <div className="flex justify-between text-xs text-neutral-300 mb-1">
                         <span>{s.name}</span><span className="mono-font">{s.level}%</span>
@@ -412,7 +412,7 @@ export default function HomePage() {
           <span className="flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-neutral-300"><MapPin size={15} /> {settings.location}</span>
         </div>
         <div className="flex flex-wrap justify-center gap-5 text-neutral-400">
-          {settings.socialLinks.map((link) => {
+          {(settings.socialLinks || []).map((link) => {
             const Icon = iconForPlatform(link.platform);
             return (
               <a key={link.platform + link.url} href={link.url} target="_blank" rel="noopener noreferrer" title={link.label || link.platform}>

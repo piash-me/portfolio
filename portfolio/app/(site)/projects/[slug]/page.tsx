@@ -45,7 +45,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
         <p className="text-neutral-300 text-lg leading-relaxed mb-10">{project.summary}</p>
 
         <div className="flex flex-wrap gap-2 mb-12">
-          {project.tools.map((t) => (
+          {(project.tools || []).map((t) => (
             <span key={t} className="text-xs px-3 py-1.5 rounded-full glass text-neutral-300">{t}</span>
           ))}
           {project.githubUrl && (

@@ -12,6 +12,7 @@ export default {
     { name: 'problem', type: 'text' },
     { name: 'solution', type: 'text' },
     { name: 'impact', type: 'text' },
+    { name: 'tools', title: 'Tools/Technologies Used', type: 'array', of: [{ type: 'string' }], description: 'Shown as small pills on the project detail page, e.g. "Power BI", "SQL".' },
     { name: 'coverImage', type: 'image', options: { hotspot: true } },
     { name: 'gallery', type: 'array', of: [{ type: 'image' }] },
     { name: 'githubUrl', type: 'url' },
