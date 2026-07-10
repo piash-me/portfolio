@@ -234,11 +234,13 @@ export default function HomePage() {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  // Headline supports an optional "|" to mark where the gradient-colored part begins,
-  // e.g. "I improve operations by|analyzing the data." — set in Site Settings.
-  const [headlinePlain, headlineGrad] = settings.heroHeadline.includes('|')
-    ? settings.heroHeadline.split('|')
-    : [settings.heroHeadline, ''];
+  // Headline supports "|" to mark gradient-colored text:
+  //   One pipe:  "plain text |gradient to the end"
+  //   Two pipes: "plain text |gradient section| more plain text" — highlights just the middle part
+  const headlineParts = settings.heroHeadline.split('|');
+  const headlinePlain = headlineParts[0] || '';
+  const headlineGrad = headlineParts.length >= 2 ? headlineParts[1] : '';
+  const headlineAfter = headlineParts.length >= 3 ? headlineParts.slice(2).join('|') : '';
 
   return (
     <main>
@@ -253,7 +255,7 @@ export default function HomePage() {
           <div>
             <p className="mono-font text-xs tracking-[0.3em] text-bronze mb-4 select-none">{settings.heroEyebrow}</p>
             <h1 className="display-font text-4xl sm:text-6xl font-semibold leading-tight text-fg">
-              {headlinePlain}{headlineGrad && <span className="grad-text">{headlineGrad}</span>}
+              {headlinePlain}{headlineGrad && <span className="grad-text">{headlineGrad}</span>}{headlineAfter}
             </h1>
             <p className="mt-5 text-lg text-fg-muted h-7">
               {typedRole}<span className="inline-block w-[2px] h-5 bg-violet ml-1 align-middle animate-pulse" />

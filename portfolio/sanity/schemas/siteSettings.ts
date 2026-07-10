@@ -9,7 +9,7 @@ export default {
 
     // Hero section
     { name: 'heroEyebrow', title: 'Hero Small Label', type: 'string', description: 'e.g. "OPERATIONS, IMPROVED THROUGH DATA"' },
-    { name: 'heroHeadline', title: 'Hero Headline', type: 'string', description: 'Use a | to mark where the gradient color starts, e.g. "I look for the |insight hiding in operations data." — include a space right before the |, or the two halves will run together with no gap.' },
+    { name: 'heroHeadline', title: 'Hero Headline', type: 'string', description: 'Use | to mark colored (gradient) text. One pipe colors everything after it: "Plain text |colored to the end." Two pipes color only the middle part and plain text continues after: "Plain text |colored part| more plain text." Always include a space right before each |, or the words will run together with no gap.' },
     { name: 'heroSubtext', title: 'Hero Paragraph', type: 'text' },
     { name: 'roleTags', title: 'Rotating Role Titles', type: 'array', of: [{ type: 'string' }], description: 'The words that type/rotate under the headline' },
     { name: 'badgeText', title: 'Photo Badge Text', type: 'string', description: 'e.g. "OPEN TO DATA ANALYST ROLES"' },
